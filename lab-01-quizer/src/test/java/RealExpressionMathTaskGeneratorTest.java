@@ -1,10 +1,7 @@
 import by.degmuk.quizer.Result;
-import by.degmuk.quizer.task_generators.TaskGenerator;
-import by.degmuk.quizer.task_generators.math_task_generators.ExpressionTaskGenerator;
-import by.degmuk.quizer.task_generators.math_task_generators.MathTaskGenerator;
-import by.degmuk.quizer.task_generators.math_task_generators.RealExpressionMathTaskGenerator;
-import by.degmuk.quizer.task_generators.math_task_generators.RealMathTaskGenerator;
-import by.degmuk.quizer.tasks.math_tasks.RealExpressionMathTask;
+import by.degmuk.quizer.tasks.Task;
+import by.degmuk.quizer.tasks.math_tasks.ExpressionTask;
+import by.degmuk.quizer.tasks.math_tasks.MathTask;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
@@ -14,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RealExpressionMathTaskGeneratorTest {
     @Test
     void compileabilityTest() throws IllegalAccessException {
-        RealExpressionMathTaskGenerator generator =
-                new RealExpressionMathTaskGenerator(4,42, 228, true, true, true,
+        ExpressionTask.Generator generator =
+                new ExpressionTask.Generator(4,42, 228, true, true, true,
                         true);
         RealMathTaskGenerator realMathTaskGenerator = generator;
         assertEquals(realMathTaskGenerator.generate().getClass(),
@@ -23,10 +20,10 @@ public class RealExpressionMathTaskGeneratorTest {
         ExpressionTaskGenerator expressionTaskGenerator = generator;
         assertEquals(expressionTaskGenerator.generate().getClass(),
                 RealExpressionMathTask.class);
-        MathTaskGenerator mathTaskGenerator = generator;
+        MathTask.Generator mathTaskGenerator = generator;
         assertEquals(mathTaskGenerator.generate().getClass(),
                 RealExpressionMathTask.class);
-        TaskGenerator taskGenerator = generator;
+        Task.Generator taskGenerator = generator;
         assertEquals(taskGenerator.generate().getClass(),
                 RealExpressionMathTask.class);
     }
@@ -34,16 +31,16 @@ public class RealExpressionMathTaskGeneratorTest {
     @Test
     void constructionTest() {
         assertDoesNotThrow(
-                () -> new RealExpressionMathTaskGenerator(4,42, 228, true, true,
+                () -> new ExpressionTask.Generator(4,42, 228, true, true,
                         true, true));
         assertDoesNotThrow(
-                () -> new RealExpressionMathTaskGenerator(4,42, 228, false, false,
+                () -> new ExpressionTask.Generator(4,42, 228, false, false,
                         false, true));
         assertThrows(IllegalArgumentException.class,
-                () -> new RealExpressionMathTaskGenerator(4,228, 42, true, true,
+                () -> new ExpressionTask.Generator(4,228, 42, true, true,
                         true, true));
         assertThrows(IllegalArgumentException.class,
-                () -> new RealExpressionMathTaskGenerator(4,42, 228, false, false,
+                () -> new ExpressionTask.Generator(4,42, 228, false, false,
                         false, false));
     }
 
@@ -59,15 +56,15 @@ public class RealExpressionMathTaskGeneratorTest {
     @Test
     void gettersTest() throws IllegalAccessException {
         {
-            RealExpressionMathTaskGenerator generator =
-                    new RealExpressionMathTaskGenerator(4,42, 228, true, true,
+            ExpressionTask.Generator generator =
+                    new ExpressionTask.Generator(4,42, 228, true, true,
                             true, true);
             assertEquals(generator.getMinNumber(), 42);
             assertEquals(generator.getMaxNumber(), 228);
         }
         {
-            RealExpressionMathTaskGenerator generator =
-                    new RealExpressionMathTaskGenerator(4,42, 228, false, false,
+            ExpressionTask.Generator generator =
+                    new ExpressionTask.Generator(4,42, 228, false, false,
                             false, true);
             assertEquals(generator.getMinNumber(), 42);
             assertEquals(generator.getMaxNumber(), 228);
@@ -76,8 +73,8 @@ public class RealExpressionMathTaskGeneratorTest {
 
     @Test
     void generationTest() throws IllegalAccessException {
-        RealExpressionMathTaskGenerator generator =
-                new RealExpressionMathTaskGenerator(4,-42, 228, true, true, true,
+        ExpressionTask.Generator generator =
+                new ExpressionTask.Generator(4,-42, 228, true, true, true,
                         true);
         for (double i = 0; i < 1000; ++i) {
             RealExpressionMathTask task = generator.generate();
@@ -93,8 +90,8 @@ public class RealExpressionMathTaskGeneratorTest {
 
     @Test
     void sumTest() throws IllegalAccessException {
-        RealExpressionMathTaskGenerator generator =
-                new RealExpressionMathTaskGenerator(4,-42, 228, true, false,
+        ExpressionTask.Generator generator =
+                new ExpressionTask.Generator(4,-42, 228, true, false,
                         false, false);
         for (double i = 0; i < 1000; ++i) {
             RealExpressionMathTask task = generator.generate();
@@ -109,8 +106,8 @@ public class RealExpressionMathTaskGeneratorTest {
 
     @Test
     void differenceTest() throws IllegalAccessException {
-        RealExpressionMathTaskGenerator generator =
-                new RealExpressionMathTaskGenerator(4,-42, 228, false, true,
+        ExpressionTask.Generator generator =
+                new ExpressionTask.Generator(4,-42, 228, false, true,
                         false, false);
         for (double i = 0; i < 1000; ++i) {
             RealExpressionMathTask task = generator.generate();
@@ -125,8 +122,8 @@ public class RealExpressionMathTaskGeneratorTest {
 
     @Test
     void multiplicationTest() throws IllegalAccessException {
-        RealExpressionMathTaskGenerator generator =
-                new RealExpressionMathTaskGenerator(4,-42, 228, false, false,
+        ExpressionTask.Generator generator =
+                new ExpressionTask.Generator(4,-42, 228, false, false,
                         true, false);
         for (double i = 0; i < 1000; ++i) {
             RealExpressionMathTask task = generator.generate();
@@ -141,8 +138,8 @@ public class RealExpressionMathTaskGeneratorTest {
 
     @Test
     void divisionTest() throws IllegalAccessException {
-        RealExpressionMathTaskGenerator generator =
-                new RealExpressionMathTaskGenerator(4,-42, 228, false, false,
+        ExpressionTask.Generator generator =
+                new ExpressionTask.Generator(4,-42, 228, false, false,
                         false, true);
         for (double i = 0; i < 1000; ++i) {
             RealExpressionMathTask task = generator.generate();

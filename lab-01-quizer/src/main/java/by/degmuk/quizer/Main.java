@@ -1,8 +1,5 @@
 package by.degmuk.quizer;
 
-import by.degmuk.quizer.task_generators.TaskGenerator;
-import by.degmuk.quizer.tasks.Task;
-
 import java.util.Map;
 import java.util.Scanner;
 

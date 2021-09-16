@@ -1,17 +1,16 @@
 package by.degmuk.quizer;
 
-import by.degmuk.quizer.task_generators.TaskGenerator;
 import by.degmuk.quizer.tasks.Task;
 
 class Quiz {
-    private final TaskGenerator generator;
+    private final Task.Generator generator;
     private int taskCount;
     private int taskOk = 0;
     private int taskWrong = 0;
     private int taskIncorrect = 0;
     private Task currentTask = null;
 
-    public Quiz(TaskGenerator generator, int taskCount) {
+    public Quiz(Task.Generator generator, int taskCount) {
         this.generator = generator;
         if (taskCount <= 0) {
             throw new IllegalArgumentException();

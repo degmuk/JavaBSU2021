@@ -6,23 +6,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class GroupTaskGenerator implements TaskGenerator {
-    private final TaskGenerator[] generators;
+public class GroupTaskGenerator implements Task.Generator {
+    private final Task.Generator[] generators;
 
-    GroupTaskGenerator(TaskGenerator... generators) {
-        this.generators = (TaskGenerator[]) Arrays.stream(generators).toArray();
+    GroupTaskGenerator(Task.Generator... generators) {
+        this.generators = (Task.Generator[]) Arrays.stream(generators).toArray();
     }
 
-    GroupTaskGenerator(List<TaskGenerator> generatorList) {
-        this.generators = new TaskGenerator[generatorList.size()];
+    GroupTaskGenerator(List<Task.Generator> generatorList) {
+        this.generators = new Task.Generator[generatorList.size()];
         int ind = 0;
-        for (TaskGenerator i : generatorList) {
+        for (Task.Generator i : generatorList) {
             this.generators[ind] = i;
             ++ind;
         }
     }
 
-    private TaskGenerator getRandomGenerator() {
+    private Task.Generator getRandomGenerator() {
         return generators[ThreadLocalRandom.current()
                 .nextInt(0, generators.length)];
     }

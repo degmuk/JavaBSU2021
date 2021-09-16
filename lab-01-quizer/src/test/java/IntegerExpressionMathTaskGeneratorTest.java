@@ -1,10 +1,6 @@
 import by.degmuk.quizer.Result;
-import by.degmuk.quizer.task_generators.TaskGenerator;
-import by.degmuk.quizer.task_generators.math_task_generators.ExpressionTaskGenerator;
-import by.degmuk.quizer.task_generators.math_task_generators.IntegerExpressionMathTaskGenerator;
-import by.degmuk.quizer.task_generators.math_task_generators.IntegerMathTaskGenerator;
-import by.degmuk.quizer.task_generators.math_task_generators.MathTaskGenerator;
-import by.degmuk.quizer.tasks.math_tasks.IntegerExpressionMathTask;
+import by.degmuk.quizer.tasks.Task;
+import by.degmuk.quizer.tasks.math_tasks.MathTask;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
@@ -23,10 +19,10 @@ public class IntegerExpressionMathTaskGeneratorTest {
         ExpressionTaskGenerator expressionTaskGenerator = generator;
         assertEquals(expressionTaskGenerator.generate().getClass(),
                 IntegerExpressionMathTask.class);
-        MathTaskGenerator mathTaskGenerator = generator;
+        MathTask.Generator mathTaskGenerator = generator;
         assertEquals(mathTaskGenerator.generate().getClass(),
                 IntegerExpressionMathTask.class);
-        TaskGenerator taskGenerator = generator;
+        Task.Generator taskGenerator = generator;
         assertEquals(taskGenerator.generate().getClass(),
                 IntegerExpressionMathTask.class);
     }

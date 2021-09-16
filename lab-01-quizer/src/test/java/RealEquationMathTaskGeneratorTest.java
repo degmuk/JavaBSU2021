@@ -1,7 +1,7 @@
 import by.degmuk.quizer.Result;
-import by.degmuk.quizer.task_generators.TaskGenerator;
-import by.degmuk.quizer.task_generators.math_task_generators.*;
-import by.degmuk.quizer.tasks.math_tasks.RealEquationMathTask;
+import by.degmuk.quizer.tasks.Task;
+import by.degmuk.quizer.tasks.math_tasks.EquationTask;
+import by.degmuk.quizer.tasks.math_tasks.MathTask;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RealEquationMathTaskGeneratorTest {
     @Test
     void compileabilityTest() throws IllegalAccessException {
-        RealEquationMathTaskGenerator generator =
-                new RealEquationMathTaskGenerator(4, 42, 228, true, true, true,
+        EquationTask.Generator generator =
+                new EquationTask.Generator(4, 42, 228, true, true, true,
                         true);
         RealMathTaskGenerator realMathTaskGenerator = generator;
         assertEquals(realMathTaskGenerator.generate().getClass(),
@@ -21,10 +21,10 @@ public class RealEquationMathTaskGeneratorTest {
         EquationTaskGenerator equationTaskGenerator = generator;
         assertEquals(equationTaskGenerator.generate().getClass(),
                 RealEquationMathTask.class);
-        MathTaskGenerator mathTaskGenerator = generator;
+        MathTask.Generator mathTaskGenerator = generator;
         assertEquals(mathTaskGenerator.generate().getClass(),
                 RealEquationMathTask.class);
-        TaskGenerator taskGenerator = generator;
+        Task.Generator taskGenerator = generator;
         assertEquals(taskGenerator.generate().getClass(),
                 RealEquationMathTask.class);
     }
@@ -32,16 +32,16 @@ public class RealEquationMathTaskGeneratorTest {
     @Test
     void constructionTest() {
         assertDoesNotThrow(
-                () -> new RealEquationMathTaskGenerator(4, 42, 228, true, true,
+                () -> new EquationTask.Generator(4, 42, 228, true, true,
                         true, true));
         assertDoesNotThrow(
-                () -> new RealEquationMathTaskGenerator(4, 42, 228, false,
+                () -> new EquationTask.Generator(4, 42, 228, false,
                         false, false, true));
         assertThrows(IllegalArgumentException.class,
-                () -> new RealEquationMathTaskGenerator(4, 228, 42, true, true,
+                () -> new EquationTask.Generator(4, 228, 42, true, true,
                         true, true));
         assertThrows(IllegalArgumentException.class,
-                () -> new RealEquationMathTaskGenerator(4,42, 228, false,
+                () -> new EquationTask.Generator(4,42, 228, false,
                         false, false, false));
     }
 
@@ -59,15 +59,15 @@ public class RealEquationMathTaskGeneratorTest {
     @Test
     void gettersTest() throws IllegalAccessException {
         {
-            RealEquationMathTaskGenerator generator =
-                    new RealEquationMathTaskGenerator(4,42, 228, true, true,
+            EquationTask.Generator generator =
+                    new EquationTask.Generator(4,42, 228, true, true,
                             true, true);
             assertEquals(generator.getMinNumber(), 42);
             assertEquals(generator.getMaxNumber(), 228);
         }
         {
-            RealEquationMathTaskGenerator generator =
-                    new RealEquationMathTaskGenerator(4,42, 228, false, false,
+            EquationTask.Generator generator =
+                    new EquationTask.Generator(4,42, 228, false, false,
                             false, true);
             assertEquals(generator.getMinNumber(), 42);
             assertEquals(generator.getMaxNumber(), 228);
@@ -76,8 +76,8 @@ public class RealEquationMathTaskGeneratorTest {
 
     @Test
     void generationTest() throws IllegalAccessException {
-        RealEquationMathTaskGenerator generator =
-                new RealEquationMathTaskGenerator(4,-42, 228, true, true, true,
+        EquationTask.Generator generator =
+                new EquationTask.Generator(4,-42, 228, true, true, true,
                         true);
         for (int i = 0; i < 1000; ++i) {
             RealEquationMathTask task = generator.generate();
@@ -93,8 +93,8 @@ public class RealEquationMathTaskGeneratorTest {
 
     @Test
     void sumTest() throws IllegalAccessException {
-        RealEquationMathTaskGenerator generator =
-                new RealEquationMathTaskGenerator(4,-42, 228, true, false,
+        EquationTask.Generator generator =
+                new EquationTask.Generator(4,-42, 228, true, false,
                         false, false);
         for (int i = 0; i < 1000; ++i) {
             RealEquationMathTask task = generator.generate();
@@ -109,8 +109,8 @@ public class RealEquationMathTaskGeneratorTest {
 
     @Test
     void differenceTest() throws IllegalAccessException {
-        RealEquationMathTaskGenerator generator =
-                new RealEquationMathTaskGenerator(4,-42, 228, false, true,
+        EquationTask.Generator generator =
+                new EquationTask.Generator(4,-42, 228, false, true,
                         false, false);
         for (int i = 0; i < 1000; ++i) {
             RealEquationMathTask task = generator.generate();
@@ -125,8 +125,8 @@ public class RealEquationMathTaskGeneratorTest {
 
     @Test
     void multiplicationTest() throws IllegalAccessException {
-        RealEquationMathTaskGenerator generator =
-                new RealEquationMathTaskGenerator(4,-42, 228, false, false,
+        EquationTask.Generator generator =
+                new EquationTask.Generator(4,-42, 228, false, false,
                         true, false);
         for (int i = 0; i < 1000; ++i) {
             RealEquationMathTask task = generator.generate();
@@ -142,8 +142,8 @@ public class RealEquationMathTaskGeneratorTest {
 
     @Test
     void divisionTest() throws IllegalAccessException {
-        RealEquationMathTaskGenerator generator =
-                new RealEquationMathTaskGenerator(4,-42, 228, false, false,
+        EquationTask.Generator generator =
+                new EquationTask.Generator(4,-42, 228, false, false,
                         false, true);
         for (int i = 0; i < 1000; ++i) {
             RealEquationMathTask task = generator.generate();

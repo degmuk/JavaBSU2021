@@ -7,4 +7,7 @@ public interface Task {
 
     Result validate(String answer);
 
+    interface Generator {
+        Task generate();
+    }
 }
