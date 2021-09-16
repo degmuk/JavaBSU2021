@@ -14,14 +14,14 @@ class Quiz {
     public Quiz(TaskGenerator generator, int taskCount) {
         this.generator = generator;
         if (taskCount <= 0) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
         this.taskCount = taskCount;
     }
 
     public Task nextTask() {
         if (isFinished()) {
-            throw new RuntimeException();
+            throw new RuntimeException("Trying get task of finished quiz");
         }
         currentTask = generator.generate();
         return currentTask;
@@ -29,7 +29,8 @@ class Quiz {
 
     public Result provideAnswer(String answer) {
         if (currentTask == null) {
-            throw new RuntimeException();
+            throw new RuntimeException("Checking answer without calling " +
+                    "nextTask()");
         }
         --taskCount;
         Result result = currentTask.validate(answer);
@@ -65,9 +66,8 @@ class Quiz {
 
     public double getMark() {
         if (!isFinished()) {
-            throw new RuntimeException();
+            throw new RuntimeException("Trying get mark of unfinished quiz");
         }
-        return 100.0 * (double) taskOk /
-                (taskOk + taskIncorrect + taskWrong + taskCount);
+        return 100.0 * (double) taskOk / (taskOk + taskWrong);
     }
 }
