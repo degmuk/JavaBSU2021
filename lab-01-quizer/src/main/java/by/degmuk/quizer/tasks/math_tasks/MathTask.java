@@ -48,5 +48,12 @@ public interface MathTask extends Task {
     interface Generator extends Task.Generator {
         @Override
         MathTask generate();
+
+        double getMinNumber();
+        double getMaxNumber();
+
+        default double getDiffNumber() {
+            return getMaxNumber() - getMinNumber();
+        }
     }
 }

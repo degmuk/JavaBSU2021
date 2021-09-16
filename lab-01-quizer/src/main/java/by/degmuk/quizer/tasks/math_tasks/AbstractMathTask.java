@@ -44,6 +44,16 @@ public abstract class AbstractMathTask implements MathTask {
         protected double maxNumber;
         protected int precision;
 
+        @Override
+        public double getMinNumber() {
+            return minNumber;
+        }
+
+        @Override
+        public double getMaxNumber() {
+            return maxNumber;
+        }
+
         public Generator(double minNumber, double maxNumber,
                          boolean generateSum, boolean generateDifference,
                          boolean generateMultiplication,
