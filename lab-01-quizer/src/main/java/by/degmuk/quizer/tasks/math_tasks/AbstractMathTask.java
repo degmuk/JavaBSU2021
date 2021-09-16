@@ -1,6 +1,6 @@
 package by.degmuk.quizer.tasks.math_tasks;
 
-import by.degmuk.quizer.tasks.Task;
+import by.degmuk.quizer.Result;
 
 public abstract class AbstractMathTask implements MathTask {
     protected final Operator op;
@@ -15,8 +15,8 @@ public abstract class AbstractMathTask implements MathTask {
 
     protected abstract Number getResult();
 
-    protected Task.Result validate(Number answer) {
-        return getResult().equals(answer) ? Task.Result.OK : Task.Result.WRONG;
+    protected Result validate(Number answer) {
+        return getResult().equals(answer) ? Result.OK : Result.WRONG;
     }
 
     protected abstract String getNum1String();

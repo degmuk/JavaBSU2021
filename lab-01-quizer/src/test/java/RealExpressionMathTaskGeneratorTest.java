@@ -1,9 +1,9 @@
+import by.degmuk.quizer.Result;
 import by.degmuk.quizer.task_generators.TaskGenerator;
 import by.degmuk.quizer.task_generators.math_task_generators.ExpressionTaskGenerator;
 import by.degmuk.quizer.task_generators.math_task_generators.MathTaskGenerator;
 import by.degmuk.quizer.task_generators.math_task_generators.RealExpressionMathTaskGenerator;
 import by.degmuk.quizer.task_generators.math_task_generators.RealMathTaskGenerator;
-import by.degmuk.quizer.tasks.Task;
 import by.degmuk.quizer.tasks.math_tasks.RealExpressionMathTask;
 import org.junit.jupiter.api.Test;
 
@@ -101,9 +101,9 @@ public class RealExpressionMathTaskGeneratorTest {
             double[] nums = getNums(task);
             double num1 = nums[0];
             double num2 = nums[1];
-            assertEquals(Task.Result.INCORRECT_INPUT, task.validate("--1"));
-            assertEquals(Task.Result.WRONG, task.validate(num1 + num2 + 42));
-            assertEquals(Task.Result.OK, task.validate(num1 + num2));
+            assertEquals(Result.INCORRECT_INPUT, task.validate("--1"));
+            assertEquals(Result.WRONG, task.validate(num1 + num2 + 42));
+            assertEquals(Result.OK, task.validate(num1 + num2));
         }
     }
 
@@ -117,9 +117,9 @@ public class RealExpressionMathTaskGeneratorTest {
             double[] nums = getNums(task);
             double num1 = nums[0];
             double num2 = nums[1];
-            assertEquals(Task.Result.INCORRECT_INPUT, task.validate("--1"));
-            assertEquals(Task.Result.WRONG, task.validate(num1 - num2 + 42));
-            assertEquals(Task.Result.OK, task.validate(num1 - num2));
+            assertEquals(Result.INCORRECT_INPUT, task.validate("--1"));
+            assertEquals(Result.WRONG, task.validate(num1 - num2 + 42));
+            assertEquals(Result.OK, task.validate(num1 - num2));
         }
     }
 
@@ -133,9 +133,9 @@ public class RealExpressionMathTaskGeneratorTest {
             double[] nums = getNums(task);
             double num1 = nums[0];
             double num2 = nums[1];
-            assertEquals(Task.Result.INCORRECT_INPUT, task.validate("--1"));
-            assertEquals(Task.Result.WRONG, task.validate(num1 * num2 + 42));
-            assertEquals(Task.Result.OK, task.validate(num1 * num2));
+            assertEquals(Result.INCORRECT_INPUT, task.validate("--1"));
+            assertEquals(Result.WRONG, task.validate(num1 * num2 + 42));
+            assertEquals(Result.OK, task.validate(num1 * num2));
         }
     }
 
@@ -150,9 +150,9 @@ public class RealExpressionMathTaskGeneratorTest {
             double num1 = nums[0];
             double num2 = nums[1];
             assertNotEquals(0, num2);
-            assertEquals(Task.Result.INCORRECT_INPUT, task.validate("--1"));
-            assertEquals(Task.Result.WRONG, task.validate(num1 / num2 + 42));
-            assertEquals(Task.Result.OK, task.validate(num1 / num2));
+            assertEquals(Result.INCORRECT_INPUT, task.validate("--1"));
+            assertEquals(Result.WRONG, task.validate(num1 / num2 + 42));
+            assertEquals(Result.OK, task.validate(num1 / num2));
         }
     }
 }

@@ -1,5 +1,7 @@
 package by.degmuk.quizer.tasks.math_tasks;
 
+import by.degmuk.quizer.Result;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 

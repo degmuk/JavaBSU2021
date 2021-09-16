@@ -1,9 +1,9 @@
+import by.degmuk.quizer.Result;
 import by.degmuk.quizer.task_generators.TaskGenerator;
 import by.degmuk.quizer.task_generators.math_task_generators.ExpressionTaskGenerator;
 import by.degmuk.quizer.task_generators.math_task_generators.IntegerExpressionMathTaskGenerator;
 import by.degmuk.quizer.task_generators.math_task_generators.IntegerMathTaskGenerator;
 import by.degmuk.quizer.task_generators.math_task_generators.MathTaskGenerator;
-import by.degmuk.quizer.tasks.Task;
 import by.degmuk.quizer.tasks.math_tasks.IntegerExpressionMathTask;
 import org.junit.jupiter.api.Test;
 
@@ -114,9 +114,9 @@ public class IntegerExpressionMathTaskGeneratorTest {
             int[] nums = getNums(task);
             int num1 = nums[0];
             int num2 = nums[1];
-            assertEquals(Task.Result.INCORRECT_INPUT, task.validate("--1"));
-            assertEquals(Task.Result.WRONG, task.validate(num1 + num2 + 42));
-            assertEquals(Task.Result.OK, task.validate(num1 + num2));
+            assertEquals(Result.INCORRECT_INPUT, task.validate("--1"));
+            assertEquals(Result.WRONG, task.validate(num1 + num2 + 42));
+            assertEquals(Result.OK, task.validate(num1 + num2));
         }
     }
 
@@ -130,9 +130,9 @@ public class IntegerExpressionMathTaskGeneratorTest {
             int[] nums = getNums(task);
             int num1 = nums[0];
             int num2 = nums[1];
-            assertEquals(Task.Result.INCORRECT_INPUT, task.validate("--1"));
-            assertEquals(Task.Result.WRONG, task.validate(num1 - num2 + 42));
-            assertEquals(Task.Result.OK, task.validate(num1 - num2));
+            assertEquals(Result.INCORRECT_INPUT, task.validate("--1"));
+            assertEquals(Result.WRONG, task.validate(num1 - num2 + 42));
+            assertEquals(Result.OK, task.validate(num1 - num2));
         }
     }
 
@@ -146,9 +146,9 @@ public class IntegerExpressionMathTaskGeneratorTest {
             int[] nums = getNums(task);
             int num1 = nums[0];
             int num2 = nums[1];
-            assertEquals(Task.Result.INCORRECT_INPUT, task.validate("--1"));
-            assertEquals(Task.Result.WRONG, task.validate(num1 * num2 + 42));
-            assertEquals(Task.Result.OK, task.validate(num1 * num2));
+            assertEquals(Result.INCORRECT_INPUT, task.validate("--1"));
+            assertEquals(Result.WRONG, task.validate(num1 * num2 + 42));
+            assertEquals(Result.OK, task.validate(num1 * num2));
         }
     }
 
@@ -163,9 +163,9 @@ public class IntegerExpressionMathTaskGeneratorTest {
             int num1 = nums[0];
             int num2 = nums[1];
             assertNotEquals(0, num2);
-            assertEquals(Task.Result.INCORRECT_INPUT, task.validate("--1"));
-            assertEquals(Task.Result.WRONG, task.validate(num1 / num2 + 42));
-            assertEquals(Task.Result.OK, task.validate(num1 / num2));
+            assertEquals(Result.INCORRECT_INPUT, task.validate("--1"));
+            assertEquals(Result.WRONG, task.validate(num1 / num2 + 42));
+            assertEquals(Result.OK, task.validate(num1 / num2));
         }
     }
 }

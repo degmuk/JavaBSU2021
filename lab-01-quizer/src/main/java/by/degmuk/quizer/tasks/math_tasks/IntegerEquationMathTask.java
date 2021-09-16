@@ -1,6 +1,6 @@
 package by.degmuk.quizer.tasks.math_tasks;
 
-import by.degmuk.quizer.tasks.Task;
+import by.degmuk.quizer.Result;
 
 public class IntegerEquationMathTask extends EquationTask
         implements IntegerMathTask {
@@ -36,7 +36,7 @@ public class IntegerEquationMathTask extends EquationTask
     }
 
     @Override
-    public Task.Result validate(int answer) {
+    public Result validate(int answer) {
         return super.validate(answer);
     }
 }

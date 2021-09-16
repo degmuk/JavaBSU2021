@@ -1,5 +1,7 @@
 package by.degmuk.quizer.tasks;
 
+import by.degmuk.quizer.Result;
+
 public class TextTask implements Task {
     private final String text;
     private final String answer;
