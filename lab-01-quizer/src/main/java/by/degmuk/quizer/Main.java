@@ -1,11 +1,21 @@
 package by.degmuk.quizer;
 
+import by.degmuk.quizer.exceptions.QuizNotFinishedException;
+import by.degmuk.quizer.tasks.Task;
+import by.degmuk.quizer.tasks.math_tasks.EquationTask;
+import by.degmuk.quizer.tasks.math_tasks.ExpressionTask;
+
 import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
     private static Map<String, Quiz> getQuizMap() {
-        return null;
+        var quizMap = Map.of("Equation quiz", new Quiz(
+                new EquationTask.Generator(-1000.0, 1000.0, true, true, true,
+                        true, 1), 10), "Expression quiz", new Quiz(
+                new ExpressionTask.Generator(-1000.0, 1000.0, true, true, true,
+                        true, 0), 5));
+        return quizMap;
     }
 
     public static void main(String[] args) {
@@ -19,10 +29,19 @@ public class Main {
         }
         Quiz quiz = quizMap.get(testName);
         while (!quiz.isFinished()) {
-            System.out.println(quiz.nextTask().getText());
-            String answer = in.nextLine();
-            System.out.println(quiz.provideAnswer(answer));
+            Result answerResult;
+            Task task = quiz.nextTask();
+            do {
+                System.out.println(task.getText());
+                String answer = in.nextLine();
+                answerResult = quiz.provideAnswer(answer);
+                System.out.println(answerResult);
+            } while (answerResult == Result.INCORRECT_INPUT);
         }
-        System.out.println(quiz.getMark());
+        try {
+            System.out.println(quiz.getMark());
+        } catch (QuizNotFinishedException e) {
+            e.printStackTrace();
+        }
     }
 }

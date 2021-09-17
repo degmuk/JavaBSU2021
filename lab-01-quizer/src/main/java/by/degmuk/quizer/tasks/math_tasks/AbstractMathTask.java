@@ -80,7 +80,7 @@ public abstract class AbstractMathTask implements MathTask {
             return Double.parseDouble(toStringWithPrecision(number, precision));
         }
 
-        protected double genNum() {
+        protected double genNum(int precision) {
             return roundToPrecision(ThreadLocalRandom.current()
                     .nextDouble(minNumber, maxNumber));
         }

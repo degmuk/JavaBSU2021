@@ -9,8 +9,12 @@ public class ExpressionTask extends AbstractMathTask {
     }
 
     public Result validate(double answer) {
+        final double validationPrecision = 1e-9;
+        double currentValidationPrecision =
+                op == Operator.DIV ? getPrecisionEps(precision / 2) * 0.5 :
+                        validationPrecision;
         return Math.abs(op.perform(num1, num2) - answer) <
-                getPrecisionEps(precision) ? Result.OK : Result.WRONG;
+                currentValidationPrecision ? Result.OK : Result.WRONG;
     }
 
 
@@ -22,8 +26,8 @@ public class ExpressionTask extends AbstractMathTask {
     }
 
     public static class Generator extends AbstractMathTask.Generator {
-        public Generator(int minNumber, int maxNumber, boolean generateSum,
-                         boolean generateDifference,
+        public Generator(double minNumber, double maxNumber,
+                         boolean generateSum, boolean generateDifference,
                          boolean generateMultiplication,
                          boolean generateDivision, int precision) {
             super(minNumber, maxNumber, generateSum, generateDifference,
@@ -54,9 +58,14 @@ public class ExpressionTask extends AbstractMathTask {
             double num1, num2;
             Operator op;
             do {
-                num1 = genNum();
-                num2 = genNum();
                 op = genOperator();
+                if (op == Operator.MUL) {
+                    num1 = genNum(precision / 2);
+                    num2 = genNum(precision / 2);
+                } else {
+                    num1 = genNum(precision);
+                    num2 = genNum(precision);
+                }
             } while (!validate(num1, num2, op));
             return new ExpressionTask(num1, num2, op, precision);
         }

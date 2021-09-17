@@ -7,20 +7,15 @@ public class EquationTask extends AbstractMathTask {
         super(num1, num2, op, precision);
     }
 
-    //    @Override
-    //    protected double getResult() {
-    //        return switch (op) {
-    //            case ADD -> num2 - num1;
-    //            case SUB -> num1 - num2;
-    //            case MUL -> num2 / num1;
-    //            case DIV -> num1 / num2;
-    //        };
-    //    }
-
     @Override
     Result validate(double answer) {
+        final double validationPrecision = 1e-9;
+        double currentValidationPrecision =
+                op == Operator.DIV || op == Operator.MUL ?
+                        getPrecisionEps(precision / 2) * 0.5 :
+                        validationPrecision;
         return Math.abs(op.perform(num1, answer) - num2) <
-                getPrecisionEps(precision) ? Result.OK : Result.WRONG;
+                currentValidationPrecision ? Result.OK : Result.WRONG;
     }
 
     @Override
@@ -63,8 +58,8 @@ public class EquationTask extends AbstractMathTask {
             double num1, num2;
             Operator op;
             do {
-                num1 = genNum();
-                num2 = genNum();
+                num1 = genNum(precision);
+                num2 = genNum(precision);
                 op = genOperator();
             } while (!validate(num1, num2, op));
             return new EquationTask(num1, num2, op, precision);

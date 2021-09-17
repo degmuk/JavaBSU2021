@@ -1,5 +1,6 @@
 package by.degmuk.quizer;
 
+import by.degmuk.quizer.exceptions.QuizNotFinishedException;
 import by.degmuk.quizer.tasks.Task;
 
 class Quiz {
@@ -22,6 +23,7 @@ class Quiz {
         if (isFinished()) {
             throw new RuntimeException("Trying get task of finished quiz");
         }
+        --taskCount;
         currentTask = generator.generate();
         return currentTask;
     }
@@ -31,7 +33,6 @@ class Quiz {
             throw new RuntimeException("Checking answer without calling " +
                     "nextTask()");
         }
-        --taskCount;
         Result result = currentTask.validate(answer);
         switch (result) {
             case OK:
@@ -63,9 +64,9 @@ class Quiz {
         return taskIncorrect;
     }
 
-    public double getMark() {
+    public double getMark() throws QuizNotFinishedException {
         if (!isFinished()) {
-            throw new RuntimeException("Trying get mark of unfinished quiz");
+            throw new QuizNotFinishedException();
         }
         return 100.0 * (double) taskOk / (taskOk + taskWrong);
     }
