@@ -9,12 +9,11 @@ public class ExpressionTask extends AbstractMathTask {
     }
 
     public Result validate(double answer) {
-        final double validationPrecision = 1e-9;
-        double currentValidationPrecision =
-                op == Operator.DIV ? getPrecisionEps(precision / 2) * 0.5 :
-                        validationPrecision;
-        return Math.abs(op.perform(num1, num2) - answer) <
-                currentValidationPrecision ? Result.OK : Result.WRONG;
+        final double validationPrecision =
+                op == Operator.DIV ? getPrecisionEps(precision) * 0.5 : 1e-9;
+        final double okResult = op.perform(num1, num2);
+        return Math.abs((okResult - answer) / okResult) < validationPrecision ?
+                Result.OK : Result.WRONG;
     }
 
 

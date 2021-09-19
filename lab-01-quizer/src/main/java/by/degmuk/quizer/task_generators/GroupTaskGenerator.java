@@ -9,17 +9,12 @@ import java.util.concurrent.ThreadLocalRandom;
 public class GroupTaskGenerator implements Task.Generator {
     private final Task.Generator[] generators;
 
-    GroupTaskGenerator(Task.Generator... generators) {
-        this.generators = (Task.Generator[]) Arrays.stream(generators).toArray();
+    public GroupTaskGenerator(Task.Generator... generators) {
+        this(Arrays.stream(generators).toList());
     }
 
-    GroupTaskGenerator(List<Task.Generator> generatorList) {
-        this.generators = new Task.Generator[generatorList.size()];
-        int ind = 0;
-        for (Task.Generator i : generatorList) {
-            this.generators[ind] = i;
-            ++ind;
-        }
+    public GroupTaskGenerator(List<Task.Generator> generatorList) {
+        this.generators = generatorList.toArray(new Task.Generator[0]);
     }
 
     private Task.Generator getRandomGenerator() {

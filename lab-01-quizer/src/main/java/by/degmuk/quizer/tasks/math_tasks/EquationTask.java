@@ -9,13 +9,11 @@ public class EquationTask extends AbstractMathTask {
 
     @Override
     Result validate(double answer) {
-        final double validationPrecision = 1e-9;
-        double currentValidationPrecision =
-                op == Operator.DIV || op == Operator.MUL ?
-                        getPrecisionEps(precision / 2) * 0.5 :
-                        validationPrecision;
-        return Math.abs(op.perform(num1, answer) - num2) <
-                currentValidationPrecision ? Result.OK : Result.WRONG;
+        final double validationPrecision =
+                op == Operator.MUL || op == Operator.DIV ?
+                        getPrecisionEps(precision) * 0.5 : 1e-9;
+        return Math.abs((op.perform(num1, answer) - num2) / num2) <
+                validationPrecision ? Result.OK : Result.WRONG;
     }
 
     @Override

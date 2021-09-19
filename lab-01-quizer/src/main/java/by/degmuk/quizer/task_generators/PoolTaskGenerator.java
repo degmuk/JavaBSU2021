@@ -2,26 +2,25 @@ package by.degmuk.quizer.task_generators;
 
 import by.degmuk.quizer.tasks.Task;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class PoolTaskGenerator implements Task.Generator {
     Task[] tasks;
 
-    PoolTaskGenerator(boolean allowDuplicate, Task... tasks) {
+    public PoolTaskGenerator(boolean allowDuplicate, Task... tasks) {
         this(allowDuplicate, new LinkedList<Task>(
                 Arrays.stream(tasks).collect(Collectors.toList())));
     }
 
-    PoolTaskGenerator(boolean allowDuplicate, List<Task> tasks) {
+    public PoolTaskGenerator(boolean allowDuplicate, List<Task> tasks) {
         if (allowDuplicate) {
-            this.tasks = (Task[]) new HashSet<Task>(tasks).toArray();
+            this.tasks = tasks.toArray(new Task[0]);
         } else {
-            this.tasks = (Task[]) tasks.toArray();
+            var uniqueTasks = Set.of(tasks.stream().toArray());
+            this.tasks = new Task[uniqueTasks.size()];
+            uniqueTasks.toArray(this.tasks);
         }
     }
 
