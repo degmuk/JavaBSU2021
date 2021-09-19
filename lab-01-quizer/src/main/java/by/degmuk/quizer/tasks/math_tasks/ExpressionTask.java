@@ -2,6 +2,8 @@ package by.degmuk.quizer.tasks.math_tasks;
 
 import by.degmuk.quizer.Result;
 
+import java.util.Set;
+
 public class ExpressionTask extends AbstractMathTask {
     public ExpressionTask(double num1, double num2, Operator op,
                           int precision) {
@@ -26,15 +28,8 @@ public class ExpressionTask extends AbstractMathTask {
 
     public static class Generator extends AbstractMathTask.Generator {
         public Generator(double minNumber, double maxNumber,
-                         boolean generateSum, boolean generateDifference,
-                         boolean generateMultiplication,
-                         boolean generateDivision, int precision) {
-            super(minNumber, maxNumber, generateSum, generateDifference,
-                    generateMultiplication, generateDivision, precision);
-            if (maxNumber < minNumber || (!generateSum && !generateDifference &&
-                    !generateMultiplication && !generateDivision)) {
-                throw new IllegalArgumentException();
-            }
+                         Set<Operator> toGenerate, int precision) {
+            super(minNumber, maxNumber, toGenerate, precision);
         }
 
         private boolean validate(double num1, double num2, Operator op) {

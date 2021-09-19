@@ -4,10 +4,12 @@ import by.degmuk.quizer.tasks.Task;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class PoolTaskGenerator implements Task.Generator {
-    Task[] tasks;
+    ArrayList<Task> tasks = new ArrayList<>();
+    boolean allowDuplicate;
 
     public PoolTaskGenerator(boolean allowDuplicate, Task... tasks) {
         this(allowDuplicate, new LinkedList<Task>(
@@ -15,17 +17,31 @@ public class PoolTaskGenerator implements Task.Generator {
     }
 
     public PoolTaskGenerator(boolean allowDuplicate, List<Task> tasks) {
+        this.allowDuplicate = allowDuplicate;
         if (allowDuplicate) {
-            this.tasks = tasks.toArray(new Task[0]);
+            this.tasks.addAll(tasks);
         } else {
-            var uniqueTasks = Set.of(tasks.stream().toArray());
-            this.tasks = new Task[uniqueTasks.size()];
-            uniqueTasks.toArray(this.tasks);
+            this.tasks.addAll(tasks.stream()
+                    .collect(Collectors.groupingBy(Function.identity(),
+                            Collectors.counting()))
+                    .entrySet()
+                    .stream()
+                    .filter(entry -> entry.getValue() == 1)
+                    .map(Map.Entry::getKey).collect(Collectors.toList()));
         }
     }
 
     @Override
     public Task generate() {
-        return tasks[ThreadLocalRandom.current().nextInt(0, tasks.length)];
+        if (tasks.size() == 0) {
+            throw new RuntimeException(
+                    "Calling generate of empty PoolTaskGenerator");
+        }
+        int toReturn = ThreadLocalRandom.current().nextInt(0, tasks.size());
+        if (allowDuplicate) {
+            return tasks.get(toReturn);
+        } else {
+            return tasks.remove(toReturn);
+        }
     }
 }

@@ -3,6 +3,7 @@ package by.degmuk.quizer.tasks.math_tasks;
 import by.degmuk.quizer.Result;
 
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class AbstractMathTask implements MathTask {
@@ -44,6 +45,18 @@ public abstract class AbstractMathTask implements MathTask {
         protected double maxNumber;
         protected int precision;
 
+        public Generator(double minNumber, double maxNumber,
+                         Set<Operator> toGenerate, int precision) {
+            if (maxNumber < minNumber || toGenerate.isEmpty()) {
+                throw new IllegalArgumentException();
+            }
+            this.minNumber = minNumber;
+            this.maxNumber = maxNumber;
+            this.operations = new ArrayList<>();
+            this.precision = precision;
+            operations.addAll(toGenerate);
+        }
+
         @Override
         public double getMinNumber() {
             return minNumber;
@@ -54,35 +67,13 @@ public abstract class AbstractMathTask implements MathTask {
             return maxNumber;
         }
 
-        public Generator(double minNumber, double maxNumber,
-                         boolean generateSum, boolean generateDifference,
-                         boolean generateMultiplication,
-                         boolean generateDivision, int precision) {
-            this.minNumber = minNumber;
-            this.maxNumber = maxNumber;
-            this.operations = new ArrayList<>();
-            this.precision = precision;
-            if (generateSum) {
-                operations.add(Operator.ADD);
-            }
-            if (generateDifference) {
-                operations.add(Operator.SUB);
-            }
-            if (generateMultiplication) {
-                operations.add(Operator.MUL);
-            }
-            if (generateDivision) {
-                operations.add(Operator.DIV);
-            }
-        }
-
-        protected double roundToPrecision(double number) {
+        protected double roundToPrecision(double number, int precision) {
             return Double.parseDouble(toStringWithPrecision(number, precision));
         }
 
         protected double genNum(int precision) {
             return roundToPrecision(ThreadLocalRandom.current()
-                    .nextDouble(minNumber, maxNumber));
+                    .nextDouble(minNumber, maxNumber), precision);
         }
 
 
