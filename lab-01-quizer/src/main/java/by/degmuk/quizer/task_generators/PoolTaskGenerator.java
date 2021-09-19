@@ -16,7 +16,7 @@ public class PoolTaskGenerator implements Task.Generator {
                 Arrays.stream(tasks).collect(Collectors.toList())));
     }
 
-    public PoolTaskGenerator(boolean allowDuplicate, List<Task> tasks) {
+    public PoolTaskGenerator(boolean allowDuplicate, Collection<Task> tasks) {
         this.allowDuplicate = allowDuplicate;
         if (allowDuplicate) {
             this.tasks.addAll(tasks);
