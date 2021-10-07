@@ -3,7 +3,7 @@ package by.degmuk.quizer_lib;
 import by.degmuk.quizer_lib.exceptions.QuizNotFinishedException;
 import by.degmuk.quizer_lib.tasks.Task;
 
-class Quiz {
+public class Quiz {
     private final Task.Generator generator;
     private int taskCount;
     private int taskOk = 0;
