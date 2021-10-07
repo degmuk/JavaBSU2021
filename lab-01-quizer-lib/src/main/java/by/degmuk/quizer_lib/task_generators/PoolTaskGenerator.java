@@ -1,6 +1,6 @@
-package by.degmuk.quizer.task_generators;
+package by.degmuk.quizer_lib.task_generators;
 
-import by.degmuk.quizer.tasks.Task;
+import by.degmuk.quizer_lib.tasks.Task;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;

@@ -1,6 +1,6 @@
-package by.degmuk.quizer.tasks.math_tasks;
+package by.degmuk.quizer_lib.tasks.math_tasks;
 
-import by.degmuk.quizer.Result;
+import by.degmuk.quizer_lib.Result;
 
 import java.util.Set;
 
