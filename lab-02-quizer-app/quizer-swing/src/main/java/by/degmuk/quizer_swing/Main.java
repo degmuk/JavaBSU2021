@@ -82,8 +82,8 @@ public class Main {
     static private Container getQuizPane(JFrame frame, Quiz quiz) {
         Container pane = new Container();
         pane.setLayout(new GridLayout(5, 3));
-        JLabel label = new JLabel();
-        label.setHorizontalAlignment(SwingConstants.CENTER);
+        JTextArea label = new JTextArea();
+        label.setLineWrap(true);
 
         pane.add(Box.createVerticalGlue());
         pane.add(Box.createVerticalGlue());
@@ -97,36 +97,32 @@ public class Main {
         pane.add(Box.createVerticalGlue());
         pane.add(Box.createVerticalGlue());
 
-        Task task = quiz.nextTask();
         label.setText(quiz.nextTask().getText());
 
         JTextField testNameInputField = new JTextField();
         testNameInputField.setMaximumSize(new Dimension(50, 20));
-        testNameInputField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (testNameInputField.getText().isEmpty()) {
-                    return;
-                }
-                testNameInputField.setRequestFocusEnabled(true);
-                if (quiz.provideAnswer(testNameInputField.getText()) == Result.INCORRECT_INPUT) {
-                    JOptionPane.showMessageDialog(null,
-                            "Введите корректный ввод");
+        testNameInputField.addActionListener(actionEvent -> {
+            if (testNameInputField.getText().isEmpty()) {
+                return;
+            }
+            testNameInputField.setRequestFocusEnabled(true);
+            if (quiz.provideAnswer(testNameInputField.getText()) == Result.INCORRECT_INPUT) {
+                JOptionPane.showMessageDialog(null,
+                        "Введите корректный ввод");
+            } else {
+                if (!quiz.isFinished()) {
+                    label.setText(quiz.nextTask().getText());
+                    testNameInputField.setText("");
                 } else {
-                    if (!quiz.isFinished()) {
-                        label.setText(quiz.nextTask().getText());
-                        testNameInputField.setText("");
-                    } else {
-                        try {
-                            JOptionPane.showMessageDialog(null,
-                                    "Ваша отметка " + quiz.getMark());
-                        } catch (QuizNotFinishedException e) {
-                            e.printStackTrace();
-                        }
-                        frame.setContentPane(getTaskChooserPane(frame));
-                        frame.setVisible(true);
-                        frame.repaint();
+                    try {
+                        JOptionPane.showMessageDialog(null,
+                                "Ваша отметка " + quiz.getMark());
+                    } catch (QuizNotFinishedException e) {
+                        e.printStackTrace();
                     }
+                    frame.setContentPane(getTaskChooserPane(frame));
+                    frame.setVisible(true);
+                    frame.repaint();
                 }
             }
         });
@@ -159,25 +155,24 @@ public class Main {
 
         JTextField testNameInputField = new JTextField();
         testNameInputField.setMaximumSize(new Dimension(50, 20));
-        testNameInputField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (testNameInputField.getText().isEmpty()) {
-                    return;
-                }
-                String testName = testNameInputField.getText();
-                testNameInputField.setText("");
-                testNameInputField.setRequestFocusEnabled(true);
-                Map<String, Quiz> quizMap = getQuizMap();
-                if (!quizMap.containsKey(testName)) {
-                    JOptionPane.showMessageDialog(null,
-                            "Введите название существующего теста");
-                } else {
-                    Quiz quiz = quizMap.get(testName);
-                    frame.setContentPane(getQuizPane(frame, quiz));
-                    frame.setVisible(true);
-                    frame.repaint();
-                }
+        testNameInputField.setMinimumSize(new Dimension(50, 20));
+        testNameInputField.setPreferredSize(new Dimension(50, 20));
+        testNameInputField.addActionListener(actionEvent -> {
+            if (testNameInputField.getText().isEmpty()) {
+                return;
+            }
+            String testName = testNameInputField.getText();
+            testNameInputField.setText("");
+            testNameInputField.setRequestFocusEnabled(true);
+            Map<String, Quiz> quizMap = getQuizMap();
+            if (!quizMap.containsKey(testName)) {
+                JOptionPane.showMessageDialog(null,
+                        "Введите название существующего теста");
+            } else {
+                Quiz quiz = quizMap.get(testName);
+                frame.setContentPane(getQuizPane(frame, quiz));
+                frame.setVisible(true);
+                frame.repaint();
             }
         });
 
