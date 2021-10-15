@@ -5,3 +5,5 @@ project(":common").projectDir = file("../zhabdex-repo/common")
 
 include "visualizer"
 project(":visualizer").projectDir = file("../zhabdex-repo/visualizer")
+include 'monitor'
+
