@@ -14,26 +14,25 @@ public class SortedCollection<T> implements ProcessedCollection<T, T> {
         this.comparator = comparator;
     }
 
-    public SortedCollection(Function<T, ? extends Number> keyExtractor) {
-        this.comparator = Comparator.comparingLong(
-                v -> keyExtractor.apply(v).longValue());
+    public <C extends Comparable<C>> SortedCollection(
+            Function<T, C> keyExtractor, boolean isReversed) {
+        if (isReversed) {
+            this.comparator = Comparator.comparing(keyExtractor);
+        } else {
+            this.comparator = (a, b) -> -keyExtractor.apply(a)
+                    .compareTo(keyExtractor.apply(b));
+        }
     }
 
-    public SortedCollection(Function<T, ? extends Number> keyExtractor,
-                            boolean isReversed) {
-        if (isReversed) {
-            this.comparator = Comparator.comparingLong(
-                    v -> -keyExtractor.apply(v).longValue());
-        } else {
-            this.comparator = Comparator.comparingLong(
-                    v -> keyExtractor.apply(v).longValue());
-        }
+    public <C extends Comparable<C>> SortedCollection(
+            Function<T, C> keyExtractor) {
+        this.comparator = Comparator.comparing(keyExtractor);
     }
 
     @Override
     public void renew(Collection<? extends T> elements) {
-        data =
-                elements.stream().sorted(comparator).collect(Collectors.toList());
+        data = elements.stream().sorted(comparator)
+                .collect(Collectors.toList());
     }
 
     @Override

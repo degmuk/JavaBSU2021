@@ -1,6 +1,6 @@
 package by.ovi.zhabdex.monitoring;
 
-import by.derovi.service_monitoring.visualizer.Table;
+import by.degmuk.collection_api.SortedCollection;
 import by.derovi.service_monitoring.visualizer.TerminalRenderer;
 import by.zhabdex.common.Service;
 import by.zhabdex.common.Tools;
@@ -19,14 +19,30 @@ public class Main {
     public static void main(String[] args) throws IOException {
         var renderer = TerminalRenderer.init(1);
         while (true) {
-            var services = getServicesState();
-            var table = new Table("Zhabdex services").addRow("Name", "Data Center",
-                    "Ping", "Available nodes", "Requests/sec", "Started time",
-                    "Current time");
-            for (var i : services) {
-                table.addRow(getServiceCharacteristics(i));
-            }
-            renderer.render(List.of(table));
+            var collection = new SortedCollection<>(
+                    Service::getRequestsPerSecond).compose(
+                    new TableViewCollection("Test",
+                            List.of(TableViewCollection.ColumnProvider.of(
+                                            "Name", Service::getName),
+                                    TableViewCollection.ColumnProvider.of(
+                                            "Data center",
+                                            Service::getDataCenter),
+                                    TableViewCollection.ColumnProvider.of(
+                                            "Ping", Service::getAveragePing),
+                                    TableViewCollection.ColumnProvider.of(
+                                            "Available nodes",
+                                            Service::getNodesCount),
+                                    TableViewCollection.ColumnProvider.of(
+                                            "Requests/sec",
+                                            Service::getRequestsPerSecond),
+                                    TableViewCollection.ColumnProvider.of(
+                                            "Started time",
+                                            Service::getStartedTime),
+                                    TableViewCollection.ColumnProvider.of(
+                                            "Current time",
+                                            Service::getCurrentTime))));
+            collection.renew(getServicesState());
+            renderer.render(List.of(collection.currentState()));
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

@@ -57,7 +57,7 @@ public class CollectionsTest {
     @Test
     void SortedCollectionTest() {
         var v = new ArrayList<>(Arrays.asList(9, 2, 3, 1, 8, 4, 11));
-        var sorter = new SortedCollection<Integer>(Integer::compare);
+        var sorter = new SortedCollection<>(Integer::compare);
         sorter.renew(v);
         Collections.sort(v);
         assertEquals(sorter.currentState(), v);
