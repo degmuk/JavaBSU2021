@@ -7,6 +7,9 @@ import by.zhabdex.common.Tools;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.reflections.Reflections;
+import org.reflections.scanners.MethodAnnotationsScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,36 +20,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MonitoringApplication {
-    public class Builder {
-        private Builder() {}
+    String packageName;
+    String serviceUrl;
+    List<MonitoringScanner> monitoringScannerList = new ArrayList<>();
+    List<Monitoring> monitorings = new ArrayList<>();
+    TerminalRenderer renderer;
 
-        public MonitoringApplication.Builder packageName(String packageName) {
-            MonitoringApplication.this.packageName = packageName;
-            return this;
-        }
+    private MonitoringApplication() {
+    }
 
-        public MonitoringApplication.Builder serviceURL(String serviceUrl) {
-            MonitoringApplication.this.serviceUrl = serviceUrl;
-            return this;
-        }
-
-        public MonitoringApplication.Builder addScanner(MonitoringScanner scanner) {
-            MonitoringApplication.this.monitoringScannerList.add(scanner);
-            return this;
-        }
-
-        public MonitoringApplication build() {
-            return MonitoringApplication.this;
-        }
+    public static MonitoringApplication.Builder builder() {
+        var monitoringApplication = new MonitoringApplication();
+        return monitoringApplication.new Builder();
     }
 
     public void start() {
-        Reflections reflection = new Reflections(packageName);
         for (var i : monitoringScannerList) {
+            Reflections reflection = new Reflections(
+                    new ConfigurationBuilder().addScanners(
+                                    new MethodAnnotationsScanner(),
+                                    new TypeAnnotationsScanner())
+                            .forPackages(packageName));
             monitorings.addAll(i.scan(reflection));
         }
         try {
-            renderer = TerminalRenderer.init(1);
+            renderer = TerminalRenderer.init(monitorings.size());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,17 +95,28 @@ public class MonitoringApplication {
         }
     }
 
+    public class Builder {
+        private Builder() {
+        }
 
-    String packageName;
-    String serviceUrl;
-    List<MonitoringScanner> monitoringScannerList = new ArrayList<>();
-    List<Monitoring> monitorings = new ArrayList<>();
-    TerminalRenderer renderer;
+        public MonitoringApplication.Builder packageName(String packageName) {
+            MonitoringApplication.this.packageName = packageName;
+            return this;
+        }
 
-    private MonitoringApplication() {}
+        public MonitoringApplication.Builder serviceURL(String serviceUrl) {
+            MonitoringApplication.this.serviceUrl = serviceUrl;
+            return this;
+        }
 
-    public static MonitoringApplication.Builder builder() {
-        var monitoringApplication = new MonitoringApplication();
-        return monitoringApplication.new Builder();
+        public MonitoringApplication.Builder addScanner(
+                MonitoringScanner scanner) {
+            MonitoringApplication.this.monitoringScannerList.add(scanner);
+            return this;
+        }
+
+        public MonitoringApplication build() {
+            return MonitoringApplication.this;
+        }
     }
 }
