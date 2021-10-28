@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class MappedCollection<T, E> implements ProcessedCollection<T, E> {
     final Function<T, E> mapper;
-    private Collection<? extends E> data = null;
+    Collection<? extends E> data = null;
 
     public MappedCollection(Function<T, E> mapper) {
         this.mapper = mapper;

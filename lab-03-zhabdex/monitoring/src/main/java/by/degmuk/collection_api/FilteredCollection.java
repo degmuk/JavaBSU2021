@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class FilteredCollection<T> implements ProcessedCollection<T, T> {
     final Predicate<T> pred;
-    private Collection<? extends T> data = null;
+    Collection<? extends T> data = null;
 
     public FilteredCollection(Predicate<T> pred) {
         this.pred = pred;
