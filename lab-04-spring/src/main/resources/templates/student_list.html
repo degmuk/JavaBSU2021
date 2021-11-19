@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список всех студентов</title>
+</head>
+<body>
+<img src="/marishka.gif" width="200" height="200">
+<table>
+    <tr>
+        <td>Имя</td>
+        <td>Комната</td>
+        <td>Часов</td>
+        <td>Студенченский билет</td>
+    </tr>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.name}"/>
+        <td th:text="${student.room}"/>
+        <td th:text="${student.totalHours}"/>
+        <td th:text="${student.studak}"/>
+    </tr>
+</table>
+</body>
+</html>

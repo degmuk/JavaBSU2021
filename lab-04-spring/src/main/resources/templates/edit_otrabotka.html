@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление нового студента</title>
+</head>
+<body>
+<img src="/marishka.gif" width="200" height="200">
+<br>
+
+<form action="/otrabotka/edit_text" method="POST">
+  <input type="text" name="text" th:value="${otrabotka} != null ? ${otrabotka.text} : 'Text'"/>
+    <input type="submit"/>
+</form>
+<br>
+
+<div th:if="${otrabotka} != null">
+Slaves list:
+<br>
+<table>
+<td>Имя</td>
+<td>Комната</td>
+<tr th:each="slave : ${otrabotka.students}">
+    <td th:text="${slave.name}"/>
+    <td th:text="${slave.room}"/>
+</tr>
+</table>
+</div>
+
+Добавить slave:
+<br>
+<form action="/otrabotka/add_slave" method="POST">
+    <label>
+        Полное имя slave:
+        <input type="text" name="name" />
+    </label>
+    <br>
+    <label>
+        Номер dungeon:
+        <input type="number" name="room"/>
+    </label>
+    <br>
+    <label>
+        Или номер slave билета:
+        <input type="number" name="studak"/>
+    </label>
+    <br>
+    <input type="submit" />
+</form>
+
+<div th:if="${otrabotka} != null">
+    <div th:if="!${otrabotka.students.isEmpty()}">
+        <form action="/otrabotka/start" method="POST">
+            <input type="submit" text="Начать отработку"/>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
