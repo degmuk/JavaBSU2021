@@ -17,18 +17,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-//				.antMatchers("/", "/img/**", "/otrabotka/list", "/student" +
-//						"/list", "/rest/**")
-//					.permitAll()
 				.antMatchers("/admin/**").hasRole("ADMIN")
-//				.antMatchers("/**", "/otrabotka/**",
-//						"/student/**")
-//					.hasRole("ADMIN")
 				.and()
 				.formLogin().permitAll()
 				.and().logout().permitAll()
 				.disable().cors();
-		http.csrf().disable();  // ADD THIS CODE TO DISABLE CSRF IN PROJECT.**
+		http.csrf().disable();
 	}
 
 	@Bean

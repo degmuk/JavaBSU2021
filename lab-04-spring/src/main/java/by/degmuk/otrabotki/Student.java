@@ -5,7 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -20,5 +21,8 @@ public class Student {
     String name;
     Integer totalHours;
     @ManyToMany
-    List<Otrabotka> otrabotki;
+    @JoinTable(name="slavery",
+            joinColumns=@JoinColumn(name="studak"),
+            inverseJoinColumns=@JoinColumn(name="id"))
+    Set<Otrabotka> otrabotki = new HashSet<>();
 }
