@@ -1,32 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Отработки</title>
 </head>
 <body>
-<img src="/marishka.gif" width="200" height="200">
-<br>
-Добро пожаловать в СМУАТА.
-<br>
-<a href="/otrabotka/list">
-    <img src="/marishka.gif" width="200" height="20">
-    Список отработок
-</a>
-<br>
-<a href="/otrabotka/edit">
-    <img src="/marishka.gif" width="200" height="20">
-    Назначить отработку
-</a>
-<br>
-<a href="/student/add">
-    <img src="/marishka.gif" width="200" height="20">
-    Добавить нового студента
-</a>
-<br>
-<a href="/student/list">
-    <img src="/marishka.gif" width="200" , height="20">
-    Список всех студентов
-</a>
+
+<div sec:authorize="isAnonymous()">
+    <a href="/login">login</a>
+    <br>
+</div>
+
+<div>
+    <a href="/"><img src="/img/marishka.gif" width="200" height="200"></a>
+    <br>
+</div>
+
+<div>
+    <a href="/otrabotka/list">
+        <img src="/img/marishka.gif" width="200" height="20">
+        Список отработок
+    </a>
+    <br>
+</div>
+
+<div sec:authorize="hasRole('ADMIN')">
+    <a href="/admin/otrabotka/edit">
+        <img src="/img/marishka.gif" width="200" height="20">
+        Назначить отработку
+    </a>
+    <br>
+</div>
+
+<div sec:authorize="hasRole('ADMIN')">
+    <a href="/admin/student/add">
+        <img src="/img/marishka.gif" width="200" height="20">
+        Добавить нового студента
+    </a>
+    <br>
+</div>
+
+<div>
+    <a href="/student/list">
+        <img src="/img/marishka.gif" width="200" , height="20">
+        Список всех студентов
+    </a>
+    <br>
+</div>
+
 </body>
 </html>

@@ -5,10 +5,13 @@
     <title>Добавление нового студента</title>
 </head>
 <body>
-<img src="/marishka.gif" width="200" height="200">
-<br>
 
-<form action="/otrabotka/edit_text" method="POST">
+<div>
+    <a href="/"><img src="/img/marishka.gif" width="200" height="200"></a>
+    <br>
+</div>
+
+<form action="/admin/otrabotka/edit_text" method="POST">
   <input type="text" name="text" th:value="${otrabotka} != null ? ${otrabotka.text} : 'Text'"/>
     <input type="submit"/>
 </form>
@@ -29,7 +32,7 @@ Slaves list:
 
 Добавить slave:
 <br>
-<form action="/otrabotka/add_slave" method="POST">
+<form action="/admin/otrabotka/add_slave" method="POST">
     <label>
         Полное имя slave:
         <input type="text" name="name" />
@@ -50,7 +53,7 @@ Slaves list:
 
 <div th:if="${otrabotka} != null">
     <div th:if="!${otrabotka.students.isEmpty()}">
-        <form action="/otrabotka/start" method="POST">
+        <form action="/admin/otrabotka/start" method="POST">
             <input type="submit" text="Начать отработку"/>
         </form>
     </div>

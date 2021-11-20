@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Отработки</title>
 </head>
 <body>
-<img src="/marishka.gif" width="200" height="200">
+
+<div>
+    <a href="/"><img src="/img/marishka.gif" width="200" height="200"></a>
+    <br>
+</div>
+
 <table>
     <tr>
         <td>Описание</td>
@@ -16,8 +21,8 @@
         <td th:text="${otrabotka.text}"/>
         <td th:text="${otrabotka.startTime}"/>
         <td th:text="${otrabotka.endTime} == null ? 'В процессе' : ${otrabotka.endTime}"/>
-        <td th:if="${otrabotka.endTime} == null">
-            <form action="/otrabotka/stop" method="POST">
+        <td th:if="${otrabotka.endTime} == null" sec:authorize="hasRole('ADMIN')">
+            <form action="/admin/otrabotka/stop" method="POST">
                 <input type="hidden" name="otrabotka_id" th:value="${otrabotka.id}"/>
                 <input type="submit" text="Кончить отработку"/>
             </form>
