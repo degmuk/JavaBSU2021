@@ -31,7 +31,7 @@ public class Otrabotka {
 
     void stop() {
         endTime = LocalDateTime.now();
-        int hours = 42 + (int) ChronoUnit.HOURS.between(startTime, endTime);
+        int hours = (int) ChronoUnit.SECONDS.between(startTime, endTime);
         for (var student : students) {
             student.otrabotki.add(this);
             student.totalHours += hours;
