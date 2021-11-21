@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Иноформация о студенте</title>
+</head>
+<body>
+<div>
+    <a href="/"><img src="/img/marishka.gif" width="200" height="200"></a>
+    <br>
+</div>
+
+<div th:if="${student} == null">
+    Студент не найден.
+</div>
+<div th:if="${student} != null">
+    <label th:text="@{'Имя: ' + ${student.name}}"/>
+    <br>
+    <label th:text="@{'Комната: ' + ${student.room}}"/>
+    <br>
+    <label th:text="@{'Номер студенческого: ' + ${student.studak}}"/>
+    <br>
+
+    <table>
+        <tr>
+            <td>Описание</td>
+            <td>Начало</td>
+            <td>Конец</td>
+        </tr>
+        <tr th:each="otrabotka : ${student.getOtrabotki()}">
+            <td th:text="${otrabotka.text}"/>
+            <td th:text="${otrabotka.startTime}"/>
+            <td th:text="${otrabotka.endTime} == null ? 'В процессе' : ${otrabotka.endTime}"/>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -28,9 +28,23 @@ public class MainController {
     }
 
     @GetMapping("/student/list")
-    public String getStudents(Model model) {
-        model.addAttribute("students", students.getAllByOrderByName());
+    public String getStudentsList(Model model, String sorting) {
+        if ("ascending".equals(sorting)) {
+            model.addAttribute("students", students.getAllByOrderByTotalHoursAsc());
+        } else if ("descending".equals(sorting)) {
+            model.addAttribute("students",
+                    students.getAllByOrderByTotalHoursDesc());
+        } else {
+            model.addAttribute("students", students.getAllByOrderByName());
+        }
         return "student_list";
+    }
+
+    @GetMapping("/student")
+    public String getStudent(Model model, Integer studak) {
+        Student student = students.getByStudak(studak);
+        model.addAttribute("student", student);
+        return "student_info";
     }
 
     @GetMapping("/otrabotka/list")

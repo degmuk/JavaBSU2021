@@ -19,11 +19,30 @@
         <td>Студенченский билет</td>
     </tr>
     <tr th:each="student : ${students}">
-        <td th:text="${student.name}"/>
+        <td>
+            <a th:text="${student.name}" th:href="@{'/student?studak=' + ${student.studak}}"/>
+        </td>
         <td th:text="${student.room}"/>
         <td th:text="${student.totalHours}"/>
         <td th:text="${student.studak}"/>
     </tr>
 </table>
+
+<div>
+    Сортировка по:
+    <form action="" method="get">
+        <input type="radio" name="sorting" value="">
+        Имени студента
+        <br>
+        <input type="radio" name="sorting" value="ascending">
+        В порядке возрастания часов
+        <br>
+        <input type="radio" name="sorting" value="descending">
+        В порядке убывания часов
+        <br>
+        <input type="submit" value="Отправить">
+    </form>
+</div>
+
 </body>
 </html>
