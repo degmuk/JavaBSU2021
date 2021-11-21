@@ -29,10 +29,12 @@
         </tr>
         <tr th:each="otrabotka : ${student.getOtrabotki()}">
             <td th:text="${otrabotka.text}"/>
-            <td th:text="${otrabotka.startTime} == null ? 'Не началась' : ${otrabotka.startTime}"/>
+            <td th:text="${otrabotka.startTime} == null ? 'Не началась' :
+                ${#temporals.format(otrabotka.startTime,'dd.MM.yyyy HH:mm')}"/>
             <td th:text="${otrabotka.endTime} == null ?
                      (${otrabotka.startTime} == null ? 'Не началась' : 'В процессе') :
-                     ${otrabotka.endTime}"/>
+                     ${#temporals.format(otrabotka.endTime,'dd.MM.yyyy HH:mm')}"/>
+            <td th:if="${otrabotka.endTime} == null" sec:authorize="hasRole('ADMIN')">
         </tr>
     </table>
 </div>

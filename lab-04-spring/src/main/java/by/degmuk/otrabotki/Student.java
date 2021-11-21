@@ -1,5 +1,6 @@
 package by.degmuk.otrabotki;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,6 @@ public class Student {
     @JoinTable(name="slavery",
             joinColumns=@JoinColumn(name="studak"),
             inverseJoinColumns=@JoinColumn(name="id"))
+    @JsonIgnoreProperties("students")
     Set<Otrabotka> otrabotki = new HashSet<>();
 }
