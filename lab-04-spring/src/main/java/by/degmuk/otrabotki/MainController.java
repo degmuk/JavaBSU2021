@@ -28,14 +28,19 @@ public class MainController {
     }
 
     @GetMapping("/student/list")
-    public String getStudentsList(Model model, String sorting) {
+    public String getStudentsList(Model model, String sorting, String name) {
+        if (name == null) {
+            name = "";
+        }
         if ("ascending".equals(sorting)) {
-            model.addAttribute("students", students.getAllByOrderByTotalHoursAsc());
+            model.addAttribute("students",
+                    students.getAllByNameContainsOrderByTotalHoursAsc(name));
         } else if ("descending".equals(sorting)) {
             model.addAttribute("students",
-                    students.getAllByOrderByTotalHoursDesc());
+                    students.getAllByNameContainsOrderByTotalHoursDesc(name));
         } else {
-            model.addAttribute("students", students.getAllByOrderByName());
+            model.addAttribute("students",
+                    students.getAllByNameContainsOrderByName(name));
         }
         return "student_list";
     }

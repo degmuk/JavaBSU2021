@@ -5,10 +5,10 @@ import org.springframework.data.repository.CrudRepository;
 public interface StudentRepository extends CrudRepository<Student, Integer> {
     Iterable<Student> getAllByOrderByName();
 
-    Iterable<Student> getAllByOrderByTotalHoursAsc();
-    Iterable<Student> getAllByOrderByTotalHoursDesc();
+    Iterable<Student> getAllByNameContainsOrderByName(String name);
+    Iterable<Student> getAllByNameContainsOrderByTotalHoursAsc(String name);
+    Iterable<Student> getAllByNameContainsOrderByTotalHoursDesc(String name);
 
     Student getByNameAndRoom(String name, Integer room);
-    Iterable<Student> getByName(String name);
     Student getByStudak(Integer studak);
 }
