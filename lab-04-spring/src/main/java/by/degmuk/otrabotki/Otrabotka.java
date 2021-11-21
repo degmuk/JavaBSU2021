@@ -23,7 +23,7 @@ public class Otrabotka {
     @JoinTable(name = "slavery", joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "studak"))
     Set<Student> students = new HashSet<>();
-    LocalDateTime startTime = LocalDateTime.now();
+    LocalDateTime startTime = null;
     LocalDateTime endTime = null;
     String text;
 

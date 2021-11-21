@@ -19,12 +19,14 @@
     </tr>
     <tr th:each="otrabotka : ${otrabotki}">
         <td th:text="${otrabotka.text}"/>
-        <td th:text="${otrabotka.startTime}"/>
-        <td th:text="${otrabotka.endTime} == null ? 'В процессе' : ${otrabotka.endTime}"/>
+        <td th:text="${otrabotka.text}"/>
+        <td th:text="${otrabotka.startTime} == null ? 'Не началась' : ${otrabotka.startTime}"/>
+        <td th:text="${otrabotka.endTime} == null ?
+                     (${otrabotka.startTime} == null ? 'Не началась' : 'В процессе') :
+                     ${otrabotka.endTime}"/>
         <td th:if="${otrabotka.endTime} == null" sec:authorize="hasRole('ADMIN')">
-            <form action="/admin/otrabotka/stop" method="POST">
-                <input type="hidden" name="otrabotka_id" th:value="${otrabotka.id}"/>
-                <input type="submit" text="Кончить отработку"/>
+            <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/edit'}" method="POST">
+                <input type="submit" value="Редактировать"/>
             </form>
         </td>
     </tr>

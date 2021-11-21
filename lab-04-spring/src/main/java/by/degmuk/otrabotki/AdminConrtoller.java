@@ -5,10 +5,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/admin")
@@ -32,63 +33,71 @@ public class AdminConrtoller {
         return "redirect:/student/list";
     }
 
-    @GetMapping("/otrabotka/edit")
-    public String addOtrabotka(HttpSession session, Model model) {
-        Otrabotka otrabotka;
-        if (session.getAttribute("otrabotka") == null) {
-            otrabotka = new Otrabotka();
-            session.setAttribute("otrabotka", otrabotka);
-        } else {
-            otrabotka = (Otrabotka) session.getAttribute("otrabotka");
-        }
+    @GetMapping("/otrabotka/new")
+    public String addOtrabotka(Model model) {
+        var otrabotka = new Otrabotka();
+        otrabotki.save(otrabotka);
+        return editOtrabotka(model, otrabotka);
+    }
+
+    public String editOtrabotka(Model model, Otrabotka otrabotka) {
         model.addAttribute("otrabotka", otrabotka);
         return "edit_otrabotka";
     }
 
-    @PostMapping(value = "/otrabotka/edit_text",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String editOtrabotkaText(HttpSession session, String text,
-                                    Model model) {
-        var otrabotka = (Otrabotka) session.getAttribute("otrabotka");
-        otrabotka.setText(text);
-        model.addAttribute("otrabotka", otrabotka);
-        return "redirect:/admin/otrabotka/edit";
+    @GetMapping("/otrabotka/{id}/edit")
+    public String getEditOtrabotka(Model model, @PathVariable Integer id) {
+        var otrabotka = otrabotki.getById(id);
+        return editOtrabotka(model, otrabotka);
     }
 
-    @PostMapping(value = "/otrabotka/add_slave",
+    @PostMapping(value = "/otrabotka/{id}/edit",
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String addNewOtrabotkaSlave(HttpSession session, String name,
-                                       Integer room, Integer studak,
-                                       Model model) {
-        var otrabotka = (Otrabotka) session.getAttribute("otrabotka");
-        model.addAttribute("otrabotka", otrabotka);
-        Student student = null;
-        if (studak != null) {
-            student = students.getByStudak(studak);
-            if (student == null || student.room.equals(room) ||
-                    student.name.equals(name)) {
-                return "redirect:/admin/otrabotka/edit";
+    public String postEditOtrabotka(Model model, @PathVariable Integer id,
+                                    String text, Student new_slave) {
+        var otrabotka = otrabotki.getById(id);
+        if (otrabotka == null) {
+            return editOtrabotka(model, otrabotka);
+        }
+        if (text != null && !text.isEmpty()) {
+            otrabotka.setText(text);
+        }
+        if (new_slave != null) {
+            Student student = null;
+            Integer studak = new_slave.getStudak();
+            String name= new_slave.getName();
+            Integer room = new_slave.getRoom();
+            if (studak != null) {
+                student = students.getByStudak(studak);
+                if (student == null ||
+                        (room != null && !student.room.equals(room)) ||
+                        (name != null && !name.isEmpty() &&
+                                !student.name.equals(name))) {
+                    student = null;
+                }
+            } else if (name != null && room != null) {
+                student = students.getByNameAndRoom(name, room);
             }
-        } else if (name != null && room != null) {
-            student = students.getByNameAndRoom(name, room);
+            if (student != null) {
+                otrabotka.students.add(student);
+                student.otrabotki.add(otrabotka);
+            }
         }
-        if (student != null && !otrabotka.students.contains(student)) {
-            otrabotka.students.add(student);
-        }
-        return "redirect:/admin/otrabotka/edit";
-    }
-
-    @PostMapping(value = "/otrabotka/start")
-    public String startOtrabotka(HttpSession session) {
-        var otrabotka = (Otrabotka) session.getAttribute("otrabotka");
         otrabotki.save(otrabotka);
-        session.removeAttribute("otrabotka");
-        return "redirect:/";
+        return editOtrabotka(model, otrabotka);
     }
 
-    @PostMapping(value = "/otrabotka/stop")
-    public String stopOtrabotka(Integer otrabotka_id) {
-        var otrabotka = otrabotki.getById(otrabotka_id);
+    @PostMapping(value = "/otrabotka/{id}/start")
+    public String startOtrabotka(@PathVariable Integer id) {
+        var otrabotka = otrabotki.getById(id);
+        otrabotka.setStartTime(LocalDateTime.now());
+        otrabotki.save(otrabotka);
+        return "redirect:/otrabotka/list";
+    }
+
+    @PostMapping(value = "/otrabotka/{id}/stop")
+    public String stopOtrabotka(@PathVariable Integer id) {
+        var otrabotka = otrabotki.getById(id);
         otrabotka.stop();
         otrabotki.save(otrabotka);
         return "redirect:/otrabotka/list";

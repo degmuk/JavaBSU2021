@@ -11,52 +11,46 @@
     <br>
 </div>
 
-<form action="/admin/otrabotka/edit_text" method="POST">
-  <input type="text" name="text" th:value="${otrabotka} != null ? ${otrabotka.text} : 'Text'"/>
-    <input type="submit"/>
-</form>
-<br>
-
 <div th:if="${otrabotka} != null">
-Slaves list:
-<br>
-<table>
-<td>Имя</td>
-<td>Комната</td>
-<tr th:each="slave : ${otrabotka.students}">
-    <td th:text="${slave.name}"/>
-    <td th:text="${slave.room}"/>
-</tr>
-</table>
-</div>
+    Slaves:
+    <br>
+    <table>
+        <td>Имя</td>
+        <td>Комната</td>
+        <tr th:each="slave : ${otrabotka.students}">
+            <td th:text="${slave.name}"/>
+            <td th:text="${slave.room}"/>
+        </tr>
+    </table>
 
-Добавить slave:
-<br>
-<form action="/admin/otrabotka/add_slave" method="POST">
-    <label>
-        Полное имя slave:
-        <input type="text" name="name" />
-    </label>
-    <br>
-    <label>
-        Номер dungeon:
-        <input type="number" name="room"/>
-    </label>
-    <br>
-    <label>
-        Или номер slave билета:
-        <input type="number" name="studak"/>
-    </label>
-    <br>
-    <input type="submit" />
-</form>
+    <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/edit'}" method="POST">
+        Описание отработки:
+        <input type="text" name="text" th:value="${otrabotka.text} != null ? ${otrabotka.text} : 'Text'"/>
+        <br>
+        Добавить slave:
+        <br>
+        Полное имя slave: <input type="text" name="name"/>
+        <br>
+        Номер dungeon: <input type="number" name="room"/>
+        <br>
+        Или номер slave билета: <input type="number" name="studak"/>
+        <br>
+        <input type="submit" value="Отправить"/>
+    </form>
 
-<div th:if="${otrabotka} != null">
-    <div th:if="!${otrabotka.students.isEmpty()}">
-        <form action="/admin/otrabotka/start" method="POST">
-            <input type="submit" text="Начать отработку"/>
+    <div th:if="${otrabotka.startTime} == null and ${!otrabotka.students.isEmpty()}">
+        <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/start'}" method="POST">
+            <input type="submit" value="Начать отработку"/>
         </form>
     </div>
+    <div th:if="${otrabotka.startTime} != null and ${otrabotka.endTime} == null">
+        <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/stop'}" method="POST">
+            <input type="submit" value="Закончить отработку"/>
+        </form>
+    </div>
+</div>
+<div th:if="${otrabotka} == null">
+    Ошибка: отработка не найдена.
 </div>
 
 </body>
