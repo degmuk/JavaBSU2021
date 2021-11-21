@@ -11,8 +11,16 @@ public class RestApiController {
     @Autowired
     StudentRepository students;
 
-    @GetMapping("/list")
-    public Iterable<Student> getAll() {
+    @Autowired
+    OtrabotkiRepository otrabotki;
+
+    @GetMapping("/students/list")
+    public Iterable<Student> getStudents() {
         return students.getAllByOrderByName();
+    }
+
+    @GetMapping("/otrabotka/list")
+    public Iterable<Otrabotka> getOtrabotki() {
+        return otrabotki.getAllByOrderByStartTimeDesc();
     }
 }
