@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Иноформация о студенте</title>
@@ -27,16 +27,20 @@
         <tr>
             <td>Описание</td>
             <td>Начало</td>
-            <td>Конец</td>
+            <td>Часов</td>
         </tr>
         <tr th:each="otrabotka : ${student.getOtrabotki()}">
             <td th:text="${otrabotka.text}"/>
             <td th:text="${otrabotka.startTime} == null ? 'Не началась' :
                 ${#temporals.format(otrabotka.startTime,'dd.MM.yyyy HH:mm')}"/>
-            <td th:text="${otrabotka.endTime} == null ?
+            <td th:text="${otrabotka.totalHours} == null ?
                      (${otrabotka.startTime} == null ? 'Не началась' : 'В процессе') :
-                     ${#temporals.format(otrabotka.endTime,'dd.MM.yyyy HH:mm')}"/>
-            <td th:if="${otrabotka.endTime} == null" sec:authorize="hasRole('ADMIN')">
+                     ${otrabotka.totalHours}"/>
+            <td sec:authorize="hasRole('ADMIN')">
+                <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/edit'}" method="POST">
+                    <input type="submit" value="Редактировать"/>
+                </form>
+            </td>
         </tr>
     </table>
 </div>

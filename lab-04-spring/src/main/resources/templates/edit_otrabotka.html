@@ -27,6 +27,22 @@
         Описание отработки:
         <input type="text" name="text" th:value="${otrabotka.text} != null ? ${otrabotka.text} : 'Text'"/>
         <br>
+        <div th:if="${otrabotka.startTime} != null">
+            Дата:
+            <input type="date" name="startDate"
+                    th:value="${otrabotka.startTime} == null ? ${#temporals.createToday()} : ${#temporals.format(otrabotka.startTime, 'yyyy-MM-dd')}"/>
+            <br>
+            Время начала:
+            <input type="time" name="startTime"
+                   th:value="${#temporals.format(otrabotka.getStartTime(), 'HH:mm')}"/>
+            <br>
+        </div>
+        <div th:if="${otrabotka.totalHours} != null">
+            Количество часов:
+            <input type="number" name="hours"
+                    th:value="${otrabotka.getTotalHours()}"/>
+            <br>
+        </div>
         Добавить slave:
         <br>
         Полное имя slave: <input type="text" name="name"/>
@@ -43,7 +59,7 @@
             <input type="submit" value="Начать отработку"/>
         </form>
     </div>
-    <div th:if="${otrabotka.startTime} != null and ${otrabotka.endTime} == null">
+    <div th:if="${otrabotka.startTime} != null and ${otrabotka.totalHours} == null">
         <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/stop'}" method="POST">
             <input type="submit" value="Закончить отработку"/>
         </form>

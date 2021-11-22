@@ -14,7 +14,7 @@ public class OtrabotkiService {
     OtrabotkiRepository otrabotki;
 
     void addStudent(Student student) {
-        student.totalHours = 0;
+        student.setTotalHours(0);
         students.save(student);
     }
 
@@ -44,22 +44,21 @@ public class OtrabotkiService {
         }
         Student student = null;
         Integer studak = new_slave.getStudak();
-        String name= new_slave.getName();
+        String name = new_slave.getName();
         Integer room = new_slave.getRoom();
         if (studak != null) {
             student = students.getByStudak(studak);
             if (student == null ||
-                    (room != null && !student.room.equals(room)) ||
+                    (room != null && !student.getRoom().equals(room)) ||
                     (name != null && !name.isEmpty() &&
-                            !student.name.equals(name))) {
+                            !student.getName().equals(name))) {
                 student = null;
             }
         } else if (name != null && room != null) {
             student = students.getByNameAndRoom(name, room);
         }
         if (student != null) {
-            otrabotka.students.add(student);
-            student.otrabotki.add(otrabotka);
+            student.addOtrabotka(otrabotka);
         }
         otrabotki.save(otrabotka);
     }
@@ -69,7 +68,7 @@ public class OtrabotkiService {
         if (otrabotka == null) {
             return;
         }
-        otrabotka.setStartTime(LocalDateTime.now());
+        otrabotka.start();
         otrabotki.save(otrabotka);
     }
 
@@ -79,6 +78,29 @@ public class OtrabotkiService {
             return;
         }
         otrabotka.stop();
+        otrabotki.save(otrabotka);
+    }
+
+    void setOtrabotkaTime(Integer id, LocalDateTime startTime, Integer hours) {
+        var otrabotka = otrabotki.getById(id);
+        if (otrabotka == null) {
+            return;
+        }
+        if (hours != null) {
+            Integer oldHours = otrabotka.getTotalHours();
+            if (oldHours != null) {
+                for (var student : otrabotka.getStudents()) {
+                    student.setTotalHours(student.getTotalHours() - oldHours);
+                }
+            }
+            for (var student : otrabotka.getStudents()) {
+                student.setTotalHours(student.getTotalHours() + hours);
+            }
+            otrabotka.setTotalHours(hours);
+        }
+        if (startTime != null) {
+            otrabotka.setStartTime(startTime);
+        }
         otrabotki.save(otrabotka);
     }
 }

@@ -19,22 +19,26 @@ public class Otrabotka {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    Integer id;
+    private Integer id;
     @ManyToMany
     @JsonIgnoreProperties("otrabotki")
     @JoinTable(name = "slavery", joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "studak"))
     Set<Student> students = new HashSet<>();
-    LocalDateTime startTime = null;
-    LocalDateTime endTime = null;
-    String text;
+    private LocalDateTime startTime = null;
+    private Integer totalHours = null;
+    private String text;
 
-    void stop() {
-        endTime = LocalDateTime.now();
-        int hours = (int) ChronoUnit.SECONDS.between(startTime, endTime);
+    public void start() {
+        startTime = LocalDateTime.now();
+    }
+
+    public void stop() {
+        var endTime = LocalDateTime.now();
+        totalHours = (int) ChronoUnit.SECONDS.between(startTime, endTime);
         for (var student : students) {
-            student.otrabotki.add(this);
-            student.totalHours += hours;
+            student.getOtrabotki().add(this);
+            student.setTotalHours(student.getTotalHours() + totalHours);
         }
     }
 }

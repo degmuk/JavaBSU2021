@@ -16,15 +16,19 @@ import java.util.Set;
 public class Student {
     @Id
     @EqualsAndHashCode.Include
-    Integer studak;
-    Integer course;
-    Integer room;
-    String name;
-    Integer totalHours;
+    private Integer studak;
+    private Integer course;
+    private Integer room;
+    private String name;
+    private Integer totalHours;
     @ManyToMany
     @JoinTable(name="slavery",
             joinColumns=@JoinColumn(name="studak"),
             inverseJoinColumns=@JoinColumn(name="id"))
     @JsonIgnoreProperties("students")
     Set<Otrabotka> otrabotki = new HashSet<>();
+
+    void addOtrabotka(Otrabotka otrabotka) {
+        otrabotki.add(otrabotka);
+    }
 }
