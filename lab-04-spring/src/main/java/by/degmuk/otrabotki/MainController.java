@@ -18,11 +18,6 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
-
     @GetMapping("/student/list")
     public String getStudentsList(Model model, String sorting, String name) {
         if (name == null) {

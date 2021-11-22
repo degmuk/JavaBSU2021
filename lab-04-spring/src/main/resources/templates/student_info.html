@@ -37,7 +37,7 @@
                      (${otrabotka.startTime} == null ? 'Не началась' : 'В процессе') :
                      ${otrabotka.totalHours}"/>
             <td sec:authorize="hasRole('ADMIN')">
-                <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/edit'}" method="POST">
+                <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/edit'}" method="GET">
                     <input type="submit" value="Редактировать"/>
                 </form>
             </td>
