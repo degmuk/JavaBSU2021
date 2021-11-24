@@ -1,5 +1,6 @@
-package by.degmuk.otrabotki;
+package by.degmuk.otrabotki.repositories;
 
+import by.degmuk.otrabotki.model.Otrabotka;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

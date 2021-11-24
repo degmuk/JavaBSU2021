@@ -1,5 +1,9 @@
 package by.degmuk.otrabotki;
 
+import by.degmuk.otrabotki.model.Otrabotka;
+import by.degmuk.otrabotki.model.Student;
+import by.degmuk.otrabotki.repositories.OtrabotkiRepository;
+import by.degmuk.otrabotki.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

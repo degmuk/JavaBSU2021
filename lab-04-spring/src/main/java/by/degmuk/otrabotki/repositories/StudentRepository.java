@@ -1,5 +1,6 @@
-package by.degmuk.otrabotki;
+package by.degmuk.otrabotki.repositories;
 
+import by.degmuk.otrabotki.model.Student;
 import org.springframework.data.repository.CrudRepository;
 
 public interface StudentRepository extends CrudRepository<Student, Integer> {

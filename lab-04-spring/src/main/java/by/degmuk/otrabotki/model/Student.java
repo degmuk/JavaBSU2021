@@ -1,4 +1,4 @@
-package by.degmuk.otrabotki;
+package by.degmuk.otrabotki.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -28,7 +28,7 @@ public class Student {
     @JsonIgnoreProperties("students")
     private Set<Otrabotka> otrabotki = new HashSet<>();
 
-    void addOtrabotka(Otrabotka otrabotka) {
+    public void addOtrabotka(Otrabotka otrabotka) {
         otrabotki.add(otrabotka);
     }
 }

@@ -1,4 +1,4 @@
-package by.degmuk.otrabotki;
+package by.degmuk.otrabotki.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
