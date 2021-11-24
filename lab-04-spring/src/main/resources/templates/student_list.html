@@ -20,11 +20,11 @@
     </tr>
     <tr th:each="student : ${students}">
         <td>
-            <a th:text="${student.name}" th:href="@{'/student?studak=' + ${student.studak}}"/>
+            <a th:text="${student.getName()}" th:href="@{'/student?studak=' + ${student.getStudak()}}"/>
         </td>
-        <td th:text="${student.room}"/>
-        <td th:text="${student.totalHours}"/>
-        <td th:text="${student.studak}"/>
+        <td th:text="${student.getRoom()}"/>
+        <td th:text="${student.getTotalHours()}"/>
+        <td th:text="${student.getStudak()}"/>
     </tr>
 </table>
 

@@ -14,13 +14,13 @@
     Студент не найден.
 </div>
 <div th:if="${student} != null">
-    <label th:text="@{'Имя: ' + ${student.name}}"/>
+    <label th:text="@{'Имя: ' + ${student.getName()}}"/>
     <br>
-    <label th:text="@{'Комната: ' + ${student.room}}"/>
+    <label th:text="@{'Комната: ' + ${student.getRoom()}}"/>
     <br>
-    <label th:text="@{'Номер студенческого: ' + ${student.studak}}"/>
+    <label th:text="@{'Номер студенческого: ' + ${student.getStudak()}}"/>
     <br>
-    <label th:text="@{'Количество часов: ' + ${student.totalHours}}"/>
+    <label th:text="@{'Количество часов: ' + ${student.getTotalHours()}}"/>
     <br>
 
     <table>
@@ -30,12 +30,12 @@
             <td>Часов</td>
         </tr>
         <tr th:each="otrabotka : ${student.getOtrabotki()}">
-            <td th:text="${otrabotka.text}"/>
-            <td th:text="${otrabotka.startTime} == null ? 'Не началась' :
-                ${#temporals.format(otrabotka.startTime,'dd.MM.yyyy HH:mm')}"/>
-            <td th:text="${otrabotka.totalHours} == null ?
-                     (${otrabotka.startTime} == null ? 'Не началась' : 'В процессе') :
-                     ${otrabotka.totalHours}"/>
+            <td th:text="${otrabotka.getText()}"/>
+            <td th:text="${otrabotka.getStartTime()} == null ? 'Не началась' :
+                ${#temporals.format(otrabotka.getStartTime(),'dd.MM.yyyy HH:mm')}"/>
+            <td th:text="${otrabotka.getTotalHours()} == null ?
+                     (${otrabotka.getStartTime()} == null ? 'Не началась' : 'В процессе') :
+                     ${otrabotka.getTotalHours()}"/>
             <td sec:authorize="hasRole('ADMIN')">
                 <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/edit'}" method="GET">
                     <input type="submit" value="Редактировать"/>

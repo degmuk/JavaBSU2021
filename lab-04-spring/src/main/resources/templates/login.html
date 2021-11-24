@@ -16,7 +16,7 @@
     Неверное имя пользователя или пароль.
 </div>
 <div th:if="${param.logout}">
-    Вы разогинились.
+    Вы разлогинились.
 </div>
 <form th:action="@{/login}" method="post">
     <div><label> Имя пользователя: <input type="text" name="username"/> </label></div>

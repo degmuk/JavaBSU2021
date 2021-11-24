@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/rest")
 public class RestApiController {
     @Autowired
-    StudentRepository students;
+    private StudentRepository students;
 
     @Autowired
-    OtrabotkiRepository otrabotki;
+    private OtrabotkiRepository otrabotki;
 
     @GetMapping("/students/list")
     public Iterable<Student> getStudents() {
-        return students.getAllByOrderByName();
+        return students.findAllByOrderByName();
     }
 
     @GetMapping("/otrabotka/list")
     public Iterable<Otrabotka> getOtrabotki() {
-        return otrabotki.getAllByOrderByStartTimeDesc();
+        return otrabotki.findAllByOrderByStartTimeDesc();
     }
 }

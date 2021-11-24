@@ -26,7 +26,7 @@ public class Student {
             joinColumns=@JoinColumn(name="studak"),
             inverseJoinColumns=@JoinColumn(name="id"))
     @JsonIgnoreProperties("students")
-    Set<Otrabotka> otrabotki = new HashSet<>();
+    private Set<Otrabotka> otrabotki = new HashSet<>();
 
     void addOtrabotka(Otrabotka otrabotka) {
         otrabotki.add(otrabotka);

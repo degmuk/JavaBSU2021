@@ -18,7 +18,7 @@ import java.time.LocalTime;
 @RequestMapping("/admin")
 public class AdminConrtoller {
     @Autowired
-    OtrabotkiService otrabotkiService;
+    private OtrabotkiService otrabotkiService;
 
     @GetMapping("/student/add")
     public String addStudent() {

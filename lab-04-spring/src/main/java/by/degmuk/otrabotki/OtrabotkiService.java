@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 @Service
 public class OtrabotkiService {
     @Autowired
-    StudentRepository students;
+    private StudentRepository students;
 
     @Autowired
-    OtrabotkiRepository otrabotki;
+    private OtrabotkiRepository otrabotki;
 
     void addStudent(Student student) {
         student.setTotalHours(0);
@@ -25,11 +25,15 @@ public class OtrabotkiService {
     }
 
     Otrabotka getOtrabotka(Integer id) {
-        return otrabotki.getById(id);
+        var result = otrabotki.findById(id);
+        if (result.isEmpty()) {
+            return null;
+        }
+        return result.get();
     }
 
     void setOtrabotkaText(Integer id, String text) {
-        var otrabotka = otrabotki.getById(id);
+        var otrabotka = getOtrabotka(id);
         if (otrabotka == null || text == null || text.isEmpty()) {
             return;
         }
@@ -38,7 +42,7 @@ public class OtrabotkiService {
     }
 
     void addOtrabotkaSlave(Integer id, Student new_slave) {
-        var otrabotka = otrabotki.getById(id);
+        var otrabotka = getOtrabotka(id);
         if (otrabotka == null || new_slave == null) {
             return;
         }
@@ -47,7 +51,7 @@ public class OtrabotkiService {
         String name = new_slave.getName();
         Integer room = new_slave.getRoom();
         if (studak != null) {
-            student = students.getByStudak(studak);
+            student = students.findByStudak(studak);
             if (student == null ||
                     (room != null && !student.getRoom().equals(room)) ||
                     (name != null && !name.isEmpty() &&
@@ -55,7 +59,7 @@ public class OtrabotkiService {
                 student = null;
             }
         } else if (name != null && room != null) {
-            student = students.getByNameAndRoom(name, room);
+            student = students.findByNameAndRoom(name, room);
         }
         if (student != null) {
             student.addOtrabotka(otrabotka);
@@ -64,7 +68,7 @@ public class OtrabotkiService {
     }
 
     void startOtrabotka(Integer id) {
-        var otrabotka = otrabotki.getById(id);
+        var otrabotka = getOtrabotka(id);
         if (otrabotka == null) {
             return;
         }
@@ -73,7 +77,7 @@ public class OtrabotkiService {
     }
 
     void stopOtrabotka(Integer id) {
-        var otrabotka = otrabotki.getById(id);
+        var otrabotka = getOtrabotka(id);
         if (otrabotka == null) {
             return;
         }
@@ -82,7 +86,7 @@ public class OtrabotkiService {
     }
 
     void setOtrabotkaTime(Integer id, LocalDateTime startTime, Integer hours) {
-        var otrabotka = otrabotki.getById(id);
+        var otrabotka = getOtrabotka(id);
         if (otrabotka == null) {
             return;
         }

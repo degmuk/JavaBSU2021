@@ -24,7 +24,7 @@ public class Otrabotka {
     @JsonIgnoreProperties("otrabotki")
     @JoinTable(name = "slavery", joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "studak"))
-    Set<Student> students = new HashSet<>();
+    private Set<Student> students = new HashSet<>();
     private LocalDateTime startTime = null;
     private Integer totalHours = null;
     private String text;

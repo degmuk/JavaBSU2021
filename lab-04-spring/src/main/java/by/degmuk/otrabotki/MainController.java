@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
     @Autowired
-    StudentRepository students;
+    private StudentRepository students;
 
     @Autowired
-    OtrabotkiRepository otrabotki;
+    private OtrabotkiRepository otrabotki;
 
     @GetMapping("/")
     public String startPage() {
@@ -25,27 +25,27 @@ public class MainController {
         }
         if ("ascending".equals(sorting)) {
             model.addAttribute("students",
-                    students.getAllByNameContainsOrderByTotalHoursAsc(name));
+                    students.findAllByNameContainsOrderByTotalHoursAsc(name));
         } else if ("descending".equals(sorting)) {
             model.addAttribute("students",
-                    students.getAllByNameContainsOrderByTotalHoursDesc(name));
+                    students.findAllByNameContainsOrderByTotalHoursDesc(name));
         } else {
             model.addAttribute("students",
-                    students.getAllByNameContainsOrderByName(name));
+                    students.findAllByNameContainsOrderByName(name));
         }
         return "student_list";
     }
 
     @GetMapping("/student")
     public String getStudent(Model model, Integer studak) {
-        Student student = students.getByStudak(studak);
+        Student student = students.findByStudak(studak);
         model.addAttribute("student", student);
         return "student_info";
     }
 
     @GetMapping("/otrabotka/list")
     public String getOtrabotki(Model model) {
-        model.addAttribute("otrabotki", otrabotki.getAllByOrderByStartTimeDesc());
+        model.addAttribute("otrabotki", otrabotki.findAllByOrderByStartTimeDesc());
         return "otrabotki_list";
     }
 }

@@ -17,27 +17,29 @@
     <table>
         <td>Имя</td>
         <td>Комната</td>
-        <tr th:each="slave : ${otrabotka.students}">
-            <td th:text="${slave.name}"/>
-            <td th:text="${slave.room}"/>
+        <tr th:each="slave : ${otrabotka.getStudents()}">
+            <td th:text="${slave.getName()}"/>
+            <td th:text="${slave.getRoom()}"/>
         </tr>
     </table>
 
-    <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/edit'}" method="POST">
+    <form th:action="@{'/admin/otrabotka/' + ${otrabotka.getId()} +  '/edit'}" method="POST">
         Описание отработки:
-        <input type="text" name="text" th:value="${otrabotka.text} != null ? ${otrabotka.text} : 'Text'"/>
+        <input type="text" name="text" th:value="${otrabotka.getText()} != null ? ${otrabotka.getText()} : 'Text'"/>
         <br>
-        <div th:if="${otrabotka.startTime} != null">
+        <div th:if="${otrabotka.getStartTime()} != null">
             Дата:
             <input type="date" name="startDate"
-                    th:value="${otrabotka.startTime} == null ? ${#temporals.createToday()} : ${#temporals.format(otrabotka.startTime, 'yyyy-MM-dd')}"/>
+                    th:value="${otrabotka.getStartTime()} == null ?
+                        ${#temporals.createToday()} :
+                        ${#temporals.format(otrabotka.getStartTime(), 'yyyy-MM-dd')}"/>
             <br>
             Время начала:
             <input type="time" name="startTime"
                    th:value="${#temporals.format(otrabotka.getStartTime(), 'HH:mm')}"/>
             <br>
         </div>
-        <div th:if="${otrabotka.totalHours} != null">
+        <div th:if="${otrabotka.getTotalHours()} != null">
             Количество часов:
             <input type="number" name="hours"
                     th:value="${otrabotka.getTotalHours()}"/>
@@ -54,13 +56,13 @@
         <input type="submit" value="Отправить"/>
     </form>
 
-    <div th:if="${otrabotka.startTime} == null and ${!otrabotka.students.isEmpty()}">
-        <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/start'}" method="POST">
+    <div th:if="${otrabotka.getStartTime()} == null and ${!otrabotka.getStudents().isEmpty()}">
+        <form th:action="@{'/admin/otrabotka/' + ${otrabotka.getId()} +  '/start'}" method="POST">
             <input type="submit" value="Начать отработку"/>
         </form>
     </div>
-    <div th:if="${otrabotka.startTime} != null and ${otrabotka.totalHours} == null">
-        <form th:action="@{'/admin/otrabotka/' + ${otrabotka.id} +  '/stop'}" method="POST">
+    <div th:if="${otrabotka.getStartTime()} != null and ${otrabotka.getTotalHours()} == null">
+        <form th:action="@{'/admin/otrabotka/' + ${otrabotka.getId()} +  '/stop'}" method="POST">
             <input type="submit" value="Закончить отработку"/>
         </form>
     </div>
