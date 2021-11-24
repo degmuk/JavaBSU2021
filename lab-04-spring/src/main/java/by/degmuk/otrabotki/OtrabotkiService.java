@@ -63,6 +63,10 @@ public class OtrabotkiService {
         }
         if (student != null) {
             student.addOtrabotka(otrabotka);
+            if (otrabotka.getTotalHours() != null) {
+                student.setTotalHours(
+                        student.getTotalHours() + otrabotka.getTotalHours());
+            }
         }
         otrabotki.save(otrabotka);
     }
