@@ -29,7 +29,11 @@ public class AdminConrtoller {
     @PostMapping(value = "/student/add",
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String addStudent(Student student) {
-        otrabotkiService.addStudent(student);
+        if (student != null && student.getName() != null &&
+                !student.getName().isEmpty() && student.getCourse() != null &&
+                student.getStudak() != null) {
+            otrabotkiService.addStudent(student);
+        }
         return "redirect:/student/list";
     }
 
@@ -59,10 +63,8 @@ public class AdminConrtoller {
                                     Integer hours) {
         otrabotkiService.setOtrabotkaText(id, text);
         otrabotkiService.addOtrabotkaSlave(id, new_slave);
-        var startDateTime =
-                startDate != null && startTime != null ?
-                        LocalDateTime.of(startDate, startTime) :
-                        null;
+        var startDateTime = startDate != null && startTime != null ?
+                LocalDateTime.of(startDate, startTime) : null;
         otrabotkiService.setOtrabotkaTime(id, startDateTime, hours);
         return "redirect:/admin/otrabotka/" + id + "/edit";
     }
