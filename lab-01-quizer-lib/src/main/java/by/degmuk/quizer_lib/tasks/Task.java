@@ -1,6 +1,6 @@
-package by.degmuk.quizer.tasks;
+package by.degmuk.quizer_lib.tasks;
 
-import by.degmuk.quizer.Result;
+import by.degmuk.quizer_lib.Result;
 
 public interface Task {
     String getText();

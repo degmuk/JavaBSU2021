@@ -1,6 +1,6 @@
-package by.degmuk.quizer.tasks.math_tasks;
+package by.degmuk.quizer_lib.tasks.math_tasks;
 
-import by.degmuk.quizer.tasks.Task;
+import by.degmuk.quizer_lib.tasks.Task;
 
 public interface MathTask extends Task {
     enum Operator {

@@ -1,4 +1,4 @@
-package by.degmuk.quizer.exceptions;
+package by.degmuk.quizer_lib.exceptions;
 
 public class QuizNotFinishedException extends Exception {
     public QuizNotFinishedException() {

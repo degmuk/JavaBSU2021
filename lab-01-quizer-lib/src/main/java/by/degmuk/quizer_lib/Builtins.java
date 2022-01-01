@@ -1,22 +1,19 @@
-package by.degmuk.quizer;
+package by.degmuk.quizer_lib;
 
-import by.degmuk.quizer.exceptions.QuizNotFinishedException;
-import by.degmuk.quizer.task_generators.DITaskGenerator;
-import by.degmuk.quizer.task_generators.GroupTaskGenerator;
-import by.degmuk.quizer.task_generators.PoolTaskGenerator;
-import by.degmuk.quizer.tasks.Task;
-import by.degmuk.quizer.tasks.TextTask;
-import by.degmuk.quizer.tasks.math_tasks.EquationTask;
-import by.degmuk.quizer.tasks.math_tasks.ExpressionTask;
-import by.degmuk.quizer.tasks.math_tasks.MathTask;
+import by.degmuk.quizer_lib.task_generators.DITaskGenerator;
+import by.degmuk.quizer_lib.task_generators.GroupTaskGenerator;
+import by.degmuk.quizer_lib.task_generators.PoolTaskGenerator;
+import by.degmuk.quizer_lib.tasks.TextTask;
+import by.degmuk.quizer_lib.tasks.math_tasks.EquationTask;
+import by.degmuk.quizer_lib.tasks.math_tasks.ExpressionTask;
+import by.degmuk.quizer_lib.tasks.math_tasks.MathTask;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 
-public class Main {
-    private static Map<String, Quiz> getQuizMap() {
+public class Builtins {
+    public static Map<String, Quiz> getQuizMap() {
         Map<String, Quiz> quizMap = new HashMap<>();
         quizMap.put("Equation quiz", new Quiz(
                 new EquationTask.Generator(-1000.0, 1000.0,
@@ -72,32 +69,5 @@ public class Main {
                         new TextTask("Diego Brando (Alternate)", "ZA WARUDO")),
                 10));
         return quizMap;
-    }
-
-    public static void main(String[] args) {
-        Map<String, Quiz> quizMap = getQuizMap();
-        System.out.println("Введите название теста...");
-        Scanner in = new Scanner(System.in);
-        String testName = in.nextLine();
-        while (!quizMap.containsKey(testName)) {
-            System.out.println("Введите название существующего теста...");
-            testName = in.nextLine();
-        }
-        Quiz quiz = quizMap.get(testName);
-        while (!quiz.isFinished()) {
-            Result answerResult;
-            Task task = quiz.nextTask();
-            do {
-                System.out.println(task.getText());
-                String answer = in.nextLine();
-                answerResult = quiz.provideAnswer(answer);
-                System.out.println(answerResult);
-            } while (answerResult == Result.INCORRECT_INPUT);
-        }
-        try {
-            System.out.println(quiz.getMark());
-        } catch (QuizNotFinishedException e) {
-            e.printStackTrace();
-        }
     }
 }
